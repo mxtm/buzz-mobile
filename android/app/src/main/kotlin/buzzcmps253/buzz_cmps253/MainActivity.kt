@@ -1,4 +1,4 @@
-package buzzcmps253.buzz_cmps253
+package buzzcmps253.buzz
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:buzz_cmps253/pages/loading.dart';
-import 'package:buzz_cmps253/pages/home.dart';
-import 'package:buzz_cmps253/pages/visitors_page.dart';
-import 'package:buzz_cmps253/pages/visitors_add.dart';
-import 'package:buzz_cmps253/pages/visitors_edit.dart';
-import 'package:buzz_cmps253/pages/recieve_call.dart';
-import 'package:buzz_cmps253/pages/check_camera.dart';
-//import 'package:buzz_cmps253/services/visitors.dart';
+import 'package:buzz/pages/loading.dart';
+import 'package:buzz/pages/home.dart';
+import 'package:buzz/pages/visitors_page.dart';
+import 'package:buzz/pages/visitors_add.dart';
+import 'package:buzz/pages/visitors_edit.dart';
+import 'package:buzz/pages/recieve_call.dart';
+import 'package:buzz/pages/check_camera.dart';
+//import 'package:buzz/services/visitors.dart';
 
 // when the app is opened, the loading screen is displayed
 // all routes are set up to direct to corresponding pages

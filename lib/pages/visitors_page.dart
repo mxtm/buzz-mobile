@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:buzz_cmps253/services/visitors.dart';
+import 'package:buzz/services/visitors.dart';
 
 class VisitorsPage extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
   List<Visitors> visitors = [
     Visitors(firstName: 'Sari', lastName: 'Nuwayhid', image: 'Untitled.png'),
     Visitors(firstName: 'Zacharia', lastName: 'Bayram', image: 'Untitled.png'),
-    Visitors(firstName: 'Maxwell', lastName: 'Mahoney', image: 'Untitled.png'),
+    Visitors(firstName: 'Maxwell', lastName: 'Tamer-Mahoney', image: 'Untitled.png'),
     Visitors(firstName: 'Bassem', lastName: 'Bahsoun', image: 'Untitled.png'),
   ];
 

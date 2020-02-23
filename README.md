@@ -1,4 +1,4 @@
-# buzz_cmps253
+# buzz
 
 Team America&#x27;s Flutter application.
 

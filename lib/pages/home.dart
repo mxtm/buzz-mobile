@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:buzz_cmps253/services/visitors.dart';
+import 'package:buzz/services/visitors.dart';
 
 class Home extends StatefulWidget {
   @override
