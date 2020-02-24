@@ -20,14 +20,15 @@ class _HomeState extends State<Home> {
             Text('BUZZ',
               style: TextStyle(
                 fontSize: 50,
-                color: Colors.blue,
+                color: Colors.amber[800],
                 letterSpacing: 2.0,
               )
             ),
               SizedBox(height: 20.0),
               FlatButton.icon(
                 onPressed: (){
-                  // TODO take the user to the camera page TBA
+                  // takes the user to the camera page TBA
+                  Navigator.pushNamed(context, '/check_camera');
                 },
                 icon: Icon(
                     Icons.videocam,
@@ -41,7 +42,7 @@ class _HomeState extends State<Home> {
             Text('Visitor',
                 style: TextStyle(
                   fontSize: 50,
-                  color: Colors.blue,
+                  color: Colors.amber[800],
                   letterSpacing: 2.0,
                 )
             ),
