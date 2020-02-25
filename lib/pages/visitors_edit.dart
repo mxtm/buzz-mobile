@@ -14,7 +14,6 @@ class _VisitorsEditState extends State<VisitorsEdit> {
   @override
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
-    print(data);
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Visitor'),

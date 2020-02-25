@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
                 color: Colors.grey[300],
               ),
               SizedBox(height: 20.0),
-            Text('Visitor',
+            Text('Visitors',
                 style: TextStyle(
                   fontSize: 50,
                   color: Colors.amber[800],
