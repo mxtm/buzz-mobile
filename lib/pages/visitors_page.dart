@@ -9,10 +9,10 @@ class VisitorsPage extends StatefulWidget {
 class _VisitorsPageState extends State<VisitorsPage> {
 
   List<Visitors> visitors = [
-    Visitors(firstName: 'Sari', lastName: 'Nuwayhid', image: 'Untitled.png'),
-    Visitors(firstName: 'Zacharia', lastName: 'Bayram', image: 'Untitled.png'),
-    Visitors(firstName: 'Maxwell', lastName: 'Tamer-Mahoney', image: 'Untitled.png'),
-    Visitors(firstName: 'Bassem', lastName: 'Bahsoun', image: 'Untitled.png'),
+    Visitors(firstName: 'Sari', lastName: 'Nuwayhid', image: 'Trump.jpg'),
+    Visitors(firstName: 'Zacharia', lastName: 'Bayram', image: 'Trump.jpg'),
+    Visitors(firstName: 'Maxwell', lastName: 'Tamer-Mahoney', image: 'Trump.jpg'),
+    Visitors(firstName: 'Bassem', lastName: 'Bahsoun', image: 'Trump.jpg'),
   ];
 
   @override
@@ -36,7 +36,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                   firstName: result['firstName'],
                   lastName: result['lastName'],
                   // TODO add image option
-                  image: 'Untitled.png',
+                  image: 'Trump.jpg',
                 );
                 visitors.add(v);
                 //TODO make this shit scrollable
