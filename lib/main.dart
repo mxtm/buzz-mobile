@@ -20,5 +20,6 @@ void main() => runApp(MaterialApp(
     '/visitors_edit': (context) => VisitorsEdit(),
     '/recieve_call': (context) => RecieveCall(),
     '/check_camera': (context) => CheckCamera(),
-  }
+  },
+  debugShowCheckedModeBanner: false
 ));
