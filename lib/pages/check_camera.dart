@@ -50,8 +50,7 @@ class CheckCamera extends HookWidget {
             child: Center(
               child: Mjpeg(
                 isLive: isRunning.value,
-                stream:
-                'https://fingerless-llama-8940.dataplicity.io/stream.mjpg',
+                stream: 'https://fingerless-llama-8940.dataplicity.io/stream.mjpg',
               ),
             ),
           ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:buzz/services/visitors.dart';
+import 'package:buzz/pages/log_page.dart';
+import 'package:buzz/pages/visitors_page.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -63,5 +64,53 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+}
+
+// created a Bottom Navigation Bar widget
+// starts on homepage, Loading points to this
+// first page on the BNB is the home page
+class BNB extends StatefulWidget {
+  @override
+  _BNBState createState() => _BNBState();
+}
+
+class _BNBState extends State<BNB> {
+  int _currentIndex = 1;
+  final List<Widget> _children = [
+    LogPage(),
+    Home(),
+    VisitorsPage(),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: _children[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: onTabTapped,
+        currentIndex: _currentIndex,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.arrow_left),
+            title: Text('Left'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('Home'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.arrow_right),
+            title: Text('Right'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 }
