@@ -92,16 +92,16 @@ class _BNBState extends State<BNB> {
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_left),
-            title: Text('Left'),
+            icon: Icon(Icons.format_list_bulleted),
+            title: Text('Visitor Log'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             title: Text('Home'),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.arrow_right),
-            title: Text('Right'),
+            icon: Icon(Icons.person),
+            title: Text('Visitors'),
           ),
         ],
       ),
