@@ -70,6 +70,7 @@ class _HomeState extends State<Home> {
 // created a Bottom Navigation Bar widget
 // starts on homepage, Loading points to this
 // first page on the BNB is the home page
+// this is padded onto the home page
 class BNB extends StatefulWidget {
   @override
   _BNBState createState() => _BNBState();
