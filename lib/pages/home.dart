@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
 
@@ -8,6 +9,24 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
+  @override
+  void initState() {
+    super.initState();
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
