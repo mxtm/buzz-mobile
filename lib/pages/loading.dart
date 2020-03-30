@@ -6,14 +6,13 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
   // when launching the app
   // this should connect to the raspberry pi
   // then after connecting it should take the user to the home page
   void setupRaspberryPi() async {
     // connect to the raspberry pi
     // await raspberry pi before going to home page
-    await Future.delayed(Duration(seconds: 1), (){});
+    await Future.delayed(Duration(seconds: 1), () {});
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -28,13 +27,28 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.amber[800],
-      body: Center(
-        child: Text('BUZZ',
-            style: TextStyle(
-                fontSize: 50,
-                color: Colors.black,
-            ),
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'BUZZ',
+                  style: TextStyle(
+                    fontSize: 50,
+                    color: Colors.black,
+                  ),
+                ),
+              ]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[Text('A 🇱🇧 🇺🇸 🇸🇪 collaboration')],
+          ),
+        ],
       ),
     );
   }

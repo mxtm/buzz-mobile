@@ -8,7 +8,6 @@ class VisitorsEdit extends StatefulWidget {
 // TODO make sure to show the original name when editing if nothing is present in the text editor box
 
 class _VisitorsEditState extends State<VisitorsEdit> {
-
   Map data = {};
 
   @override
@@ -21,12 +20,13 @@ class _VisitorsEditState extends State<VisitorsEdit> {
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
-            child: Text('Done',
+            child: Text(
+              'Done',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            onPressed: (){
+            onPressed: () {
               Navigator.pop(context, {
                 'firstName': data['firstName'],
                 'lastName': data['lastName'],
@@ -41,9 +41,9 @@ class _VisitorsEditState extends State<VisitorsEdit> {
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
               decoration: InputDecoration(
-                  hintText: data['firstName'],
+                hintText: data['firstName'],
               ),
-              onChanged: (String str){
+              onChanged: (String str) {
                 setState(() {
                   data['firstName'] = str;
                 });
@@ -54,9 +54,9 @@ class _VisitorsEditState extends State<VisitorsEdit> {
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
               decoration: InputDecoration(
-                  hintText: data['lastName'],
+                hintText: data['lastName'],
               ),
-              onChanged: (String str){
+              onChanged: (String str) {
                 setState(() {
                   data['lastName'] = str;
                 });

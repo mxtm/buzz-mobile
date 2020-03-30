@@ -8,8 +8,9 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
-
-  List<Visitors> visitors = [Visitors(firstName: 'f', lastName: 'l', image: 'i')];
+  List<Visitors> visitors = [
+    Visitors(firstName: 'f', lastName: 'l', image: 'i')
+  ];
 
   getVisitors() async {
     Logger l = new Logger();
@@ -26,21 +27,21 @@ class _VisitorsPageState extends State<VisitorsPage> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.add,
-            ),
-            onPressed: () async {
-              dynamic result = await Navigator.pushNamed(context, '/visitors_add');
-              setState(() {
-                Visitors v = new Visitors(
-                  firstName: result['firstName'],
-                  lastName: result['lastName'],
-                  image: result['image'],
-                );
-                visitors.add(v);
-              });
-            }
-          ),
+              icon: Icon(
+                Icons.add,
+              ),
+              onPressed: () async {
+                dynamic result =
+                    await Navigator.pushNamed(context, '/visitors_add');
+                setState(() {
+                  Visitors v = new Visitors(
+                    firstName: result['firstName'],
+                    lastName: result['lastName'],
+                    image: result['image'],
+                  );
+                  visitors.add(v);
+                });
+              }),
         ],
       ),
       body: FutureBuilder(
@@ -50,50 +51,51 @@ class _VisitorsPageState extends State<VisitorsPage> {
             // get the number of visitors
             itemCount: visitors.length,
             itemBuilder: (context, index) {
-              return index == 0? RaisedButton(
-                child: Text('Kill Switch'),
-                onPressed: () async {
-                  Logger l = new Logger();
-                  await l.delete(visitors);
-                  setState(() {
-
-                  });
-                },
-              )
-              : Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 2.0,
-                  horizontal: 4.0,
-                ),
-                child: Card(
-                  // to list different visitors
-                  child: ListTile(
-                    onTap: () async {
-                      dynamic result = await Navigator.pushNamed(context, '/visitors_edit', arguments: {
-                        // TODO only send index once database is implemented
-                        'firstName': visitors[index].firstName,
-                        'lastName': visitors[index].lastName,
-                        'image': visitors[index].image,
-                        'index': index,
-                      }
-                      );
-                      setState(() {
-                        visitors[index].firstName = result['firstName'];
-                        visitors[index].lastName = result['lastName'];
-                        // TODO add image thing
-                      });
-                    },
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                          visitors[index].image
+              return index == 0
+                  ? RaisedButton(
+                      child: Text('Kill Switch'),
+                      onPressed: () async {
+                        Logger l = new Logger();
+                        await l.delete(visitors);
+                        setState(() {});
+                      },
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 2.0,
+                        horizontal: 4.0,
                       ),
-                    ),
-                    title: Text(
-                      visitors[index].firstName + ' ' + visitors[index].lastName,
-                    ),
-                  ),
-                ),
-              );
+                      child: Card(
+                        // to list different visitors
+                        child: ListTile(
+                          onTap: () async {
+                            dynamic result = await Navigator.pushNamed(
+                                context, '/visitors_edit',
+                                arguments: {
+                                  // TODO only send index once database is implemented
+                                  'firstName': visitors[index].firstName,
+                                  'lastName': visitors[index].lastName,
+                                  'image': visitors[index].image,
+                                  'index': index,
+                                });
+                            setState(() {
+                              visitors[index].firstName = result['firstName'];
+                              visitors[index].lastName = result['lastName'];
+                              // TODO add image thing
+                            });
+                          },
+                          leading: CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(visitors[index].image),
+                          ),
+                          title: Text(
+                            visitors[index].firstName +
+                                ' ' +
+                                visitors[index].lastName,
+                          ),
+                        ),
+                      ),
+                    );
             },
           );
         },

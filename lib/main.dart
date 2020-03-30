@@ -10,15 +10,15 @@ import 'package:buzz/pages/check_camera.dart';
 // when the app is opened, the loading screen is displayed
 // all routes are set up to direct to corresponding pages
 void main() => runApp(MaterialApp(
-  initialRoute: '/',
-  routes: {
-    '/': (context) => Loading(),
-    '/home': (context) => BNB(),
-    '/log_page': (context) => LogPage(),
-    '/visitors_page': (context) => VisitorsPage(),
-    '/visitors_add': (context) => VisitorsAdd(),
-    '/visitors_edit': (context) => VisitorsEdit(),
-    '/check_camera': (context) => CheckCamera(),
-  },
-  debugShowCheckedModeBanner: false,
-));
+      initialRoute: '/',
+      routes: {
+        '/': (context) => Loading(),
+        '/home': (context) => BNB(),
+        '/log_page': (context) => LogPage(),
+        '/visitors_page': (context) => VisitorsPage(),
+        '/visitors_add': (context) => VisitorsAdd(),
+        '/visitors_edit': (context) => VisitorsEdit(),
+        '/check_camera': (context) => CheckCamera(),
+      },
+      debugShowCheckedModeBanner: false,
+    ));

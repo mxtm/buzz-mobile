@@ -12,7 +12,6 @@ class VisitorsAdd extends StatefulWidget {
 }
 
 class _VisitorsAddState extends State<VisitorsAdd> {
-
   String first = '';
   String last = '';
   String image = '';
@@ -27,19 +26,20 @@ class _VisitorsAddState extends State<VisitorsAdd> {
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
-            child: Text('Done',
+            child: Text(
+              'Done',
               style: TextStyle(
                 color: Colors.white,
               ),
             ),
-            onPressed: () async{
-                Visitors v = new Visitors();
-                image = await v.uploadImage(fileImage, first, last);
-                Navigator.pop(context, {
-                  'firstName': first,
-                  'lastName': last,
-                  'image': image,
-                });
+            onPressed: () async {
+              Visitors v = new Visitors();
+              image = await v.uploadImage(fileImage, first, last);
+              Navigator.pop(context, {
+                'firstName': first,
+                'lastName': last,
+                'image': image,
+              });
             },
           ),
         ],
@@ -49,10 +49,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(
-                hintText: 'First Name'
-              ),
-              onChanged: (String str){
+              decoration: InputDecoration(hintText: 'First Name'),
+              onChanged: (String str) {
                 setState(() {
                   first = str;
                 });
@@ -62,10 +60,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(
-                  hintText: 'Last Name'
-              ),
-              onChanged: (String str){
+              decoration: InputDecoration(hintText: 'Last Name'),
+              onChanged: (String str) {
                 setState(() {
                   last = str;
                 });
@@ -75,25 +71,26 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           SizedBox(height: 10.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                RaisedButton(
-                  child: Text("Camera"),
-                  onPressed: () async{
-                    File f = await ImagePicker.pickImage(source: ImageSource.camera);
-                    setState(() {
-                      fileImage = f;
-                    });
-                  },
-                ),
-                SizedBox(width: 10.0),
-                RaisedButton(
-                  child: Text("Gallery"),
-                  onPressed: () {
-                    //TODO add gallery implementation
-                  },
-                )
-              ],
-            ),
+            children: <Widget>[
+              RaisedButton(
+                child: Text("Camera"),
+                onPressed: () async {
+                  File f =
+                      await ImagePicker.pickImage(source: ImageSource.camera);
+                  setState(() {
+                    fileImage = f;
+                  });
+                },
+              ),
+              SizedBox(width: 10.0),
+              RaisedButton(
+                child: Text("Gallery"),
+                onPressed: () {
+                  //TODO add gallery implementation
+                },
+              )
+            ],
+          ),
           // TODO give user a way to select an image
         ],
       ),

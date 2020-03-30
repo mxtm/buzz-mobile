@@ -9,15 +9,15 @@ class Visitors {
   String lastName;
   String image;
 
-  Visitors ({this.firstName, this.lastName, this.image});
+  Visitors({this.firstName, this.lastName, this.image});
 
-  Future<String> getImageUrl(StorageReference reference) async{
+  Future<String> getImageUrl(StorageReference reference) async {
     String url = await reference.getDownloadURL();
     return url;
   }
 
   @override
-  String toString(){
+  String toString() {
     return '$firstName$lastName$image';
   }
 
@@ -29,11 +29,14 @@ class Visitors {
       reference = reference.child('$first $last');
       StorageUploadTask uploadTask = reference.putFile(image);
       await uploadTask.onComplete;
-      await getImageUrl(reference).then((url) {downloadUrl = url;});
-    }
-    else{
+      await getImageUrl(reference).then((url) {
+        downloadUrl = url;
+      });
+    } else {
       reference = reference.child('Image/avatar.jpg');
-      await getImageUrl(reference).then((url) {downloadUrl = url;});
+      await getImageUrl(reference).then((url) {
+        downloadUrl = url;
+      });
     }
     Logger l = new Logger();
     await l.write(first, last, downloadUrl);
