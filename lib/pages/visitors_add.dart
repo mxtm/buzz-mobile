@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'dart:io';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:buzz/services/visitors.dart';
+import 'package:buzz/services/visitor.dart';
 
 class VisitorsAdd extends StatefulWidget {
   @override
@@ -16,6 +15,32 @@ class _VisitorsAddState extends State<VisitorsAdd> {
   String last = '';
   String image = '';
   File fileImage;
+
+  Future<String> getImageUrl(StorageReference reference) async {
+    String url = await reference.getDownloadURL();
+    return url;
+  }
+
+  Future<String> uploadImage(
+      File image, String firstName, String lastName) async {
+    //TODO figure out way to have many people with the same name
+    String downloadUrl;
+    StorageReference reference = FirebaseStorage.instance.ref();
+    if (image != null) {
+      reference = reference.child('$firstName $lastName');
+      StorageUploadTask uploadTask = reference.putFile(image);
+      await uploadTask.onComplete;
+      await getImageUrl(reference).then((url) {
+        downloadUrl = url;
+      });
+    } else {
+      reference = reference.child('Image/avatar.jpg');
+      await getImageUrl(reference).then((url) {
+        downloadUrl = url;
+      });
+    }
+    return downloadUrl;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +58,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               ),
             ),
             onPressed: () async {
-              Visitors v = new Visitors();
-              image = await v.uploadImage(fileImage, first, last);
+              image = await uploadImage(fileImage, first, last);
               Navigator.pop(context, {
                 'firstName': first,
                 'lastName': last,
@@ -84,14 +108,16 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               ),
               SizedBox(width: 10.0),
               RaisedButton(
-                child: Text("Gallery"),
-                onPressed: () {
-                  //TODO add gallery implementation
-                },
-              )
+                  child: Text("Gallery"),
+                  onPressed: () async {
+                    File f = await ImagePicker.pickImage(
+                        source: ImageSource.gallery);
+                    setState(() {
+                      fileImage = f;
+                    });
+                  })
             ],
           ),
-          // TODO give user a way to select an image
         ],
       ),
     );

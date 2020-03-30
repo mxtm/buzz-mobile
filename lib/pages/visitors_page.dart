@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:buzz/services/visitors.dart';
-import 'package:buzz/services/logger.dart';
+import 'package:buzz/services/database.dart';
+import 'package:buzz/services/visitor.dart';
 
 class VisitorsPage extends StatefulWidget {
   @override
@@ -8,13 +8,11 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
-  List<Visitors> visitors = [
-    Visitors(firstName: 'f', lastName: 'l', image: 'i')
-  ];
-
-  getVisitors() async {
-    Logger l = new Logger();
-    visitors = await l.setup(visitors);
+//TODO figure this out
+  Future<List<Visitor>> fetchVisitors() async {
+    var dbHelper = DBHandler();
+    Future<List<Visitor>> visitors = dbHelper.getVisitors();
+    return visitors;
   }
 
   @override
@@ -34,72 +32,73 @@ class _VisitorsPageState extends State<VisitorsPage> {
                 dynamic result =
                     await Navigator.pushNamed(context, '/visitors_add');
                 setState(() {
-                  Visitors v = new Visitors(
-                    firstName: result['firstName'],
-                    lastName: result['lastName'],
-                    image: result['image'],
-                  );
-                  visitors.add(v);
+                  var dbHelper = DBHandler();
+                  var visitor = Visitor(
+                      result['firstName'], result['lastName'], result['image']);
+                  dbHelper.saveVisitors(visitor);
                 });
               }),
         ],
       ),
       body: FutureBuilder(
-        future: getVisitors(),
-        builder: (BuildContext context, snapshot) {
-          return ListView.builder(
-            // get the number of visitors
-            itemCount: visitors.length,
-            itemBuilder: (context, index) {
-              return index == 0
-                  ? RaisedButton(
-                      child: Text('Kill Switch'),
-                      onPressed: () async {
-                        Logger l = new Logger();
-                        await l.delete(visitors);
-                        setState(() {});
+          future: fetchVisitors(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                  // get the number of visitors
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      background: Container(color: Colors.red),
+                      onDismissed: (direction) {
+                        var dbHelper = DBHandler();
+                        dbHelper.deleteVisitor(snapshot.data[index].id);
                       },
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 2.0,
-                        horizontal: 4.0,
-                      ),
-                      child: Card(
-                        // to list different visitors
-                        child: ListTile(
-                          onTap: () async {
-                            dynamic result = await Navigator.pushNamed(
-                                context, '/visitors_edit',
-                                arguments: {
-                                  // TODO only send index once database is implemented
-                                  'firstName': visitors[index].firstName,
-                                  'lastName': visitors[index].lastName,
-                                  'image': visitors[index].image,
-                                  'index': index,
-                                });
-                            setState(() {
-                              visitors[index].firstName = result['firstName'];
-                              visitors[index].lastName = result['lastName'];
-                              // TODO add image thing
-                            });
-                          },
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(visitors[index].image),
-                          ),
-                          title: Text(
-                            visitors[index].firstName +
-                                ' ' +
-                                visitors[index].lastName,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 2.0,
+                          horizontal: 4.0,
+                        ),
+                        child: Card(
+                          // to list different visitors
+                          child: ListTile(
+                            onTap: () async {
+                              dynamic result = await Navigator.pushNamed(
+                                  context, '/visitors_edit',
+                                  arguments: {
+                                    'firstName': snapshot.data[index].firstName,
+                                    'lastName': snapshot.data[index].lastName,
+                                    'image': snapshot.data[index].firstName,
+                                  });
+                              var dbHelper = DBHandler();
+                              await dbHelper.editVisitor(Visitor.withID(
+                                  snapshot.data[index].id,
+                                  result['firstName'],
+                                  result['lastName'],
+                                  result['image']));
+                              setState(() {});
+                            },
+                            leading: CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage(snapshot.data[index].image),
+                            ),
+                            title: Text(
+                              snapshot.data[index].firstName +
+                                  ' ' +
+                                  snapshot.data[index].lastName,
+                            ),
                           ),
                         ),
                       ),
                     );
-            },
-          );
-        },
-      ),
+                  });
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }),
     );
   }
 }
