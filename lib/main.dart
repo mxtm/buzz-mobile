@@ -5,7 +5,6 @@ import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
 import 'package:buzz/pages/visitors_add.dart';
 import 'package:buzz/pages/visitors_edit.dart';
-import 'package:buzz/pages/recieve_call.dart';
 import 'package:buzz/pages/check_camera.dart';
 
 // when the app is opened, the loading screen is displayed
