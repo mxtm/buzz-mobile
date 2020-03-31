@@ -42,6 +42,7 @@ class _HomeState extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
+          // TODO: Remove the black bars from the side of the VlcPlayer
           VlcPlayer(
             defaultHeight: 400,
             defaultWidth: 200,
