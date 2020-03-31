@@ -43,18 +43,19 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           // TODO: Remove the black bars from the side of the VlcPlayer
-          VlcPlayer(
-            defaultHeight: 400,
-            defaultWidth: 200,
-            url: "***REMOVED***",
-            controller: videoViewController,
-            placeholder: Container(
-              height: 200,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  CircularProgressIndicator()
-                ],
+          AspectRatio(
+            aspectRatio: 4/3,
+            child: VlcPlayer(
+              url: "***REMOVED***",
+              controller: videoViewController,
+              placeholder: Container(
+                height: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    CircularProgressIndicator()
+                  ],
+                ),
               ),
             ),
           ),

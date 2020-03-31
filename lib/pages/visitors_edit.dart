@@ -28,7 +28,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     String downloadUrl;
     StorageReference reference = FirebaseStorage.instance.ref();
     if (image != null) {
-      reference = reference.child('$firstName $lastName');
+      reference = reference.child("$firstName $lastName ${data['id']}");
       StorageUploadTask uploadTask = reference.putFile(image);
       await uploadTask.onComplete;
       await getImageUrl(reference).then((url) {
@@ -73,6 +73,14 @@ class _VisitorsEditState extends State<VisitorsEdit> {
             onPressed: () async {
               //TODO delete old image from firebase
               //await deleteImage(data['image']);
+              if (firstName == '' || firstName == null)
+                {
+                  firstName = data['firstName'];
+                }
+              if (lastName == '' || lastName == null)
+              {
+                lastName = data['lastName'];
+              }
               data['image'] = await uploadImage(fileImage, firstName, lastName);
               Navigator.pop(context, {
                 'firstName': firstName,

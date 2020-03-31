@@ -69,7 +69,8 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   arguments: {
                                     'firstName': snapshot.data[index].firstName,
                                     'lastName': snapshot.data[index].lastName,
-                                    'image': snapshot.data[index].firstName,
+                                    'image': snapshot.data[index].image,
+                                    'id' :snapshot.data[index].id,
                                   });
                               var dbHelper = DBHandler();
                               await dbHelper.editVisitor(Visitor.withID(
