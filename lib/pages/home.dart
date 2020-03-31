@@ -1,7 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
+import 'package:flutter_vlc_player/vlc_player.dart';
+import 'package:flutter_vlc_player/vlc_player_controller.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -10,9 +14,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  VlcPlayerController videoViewController;
+  GlobalKey imageKey;
 
   @override
   void initState() {
+    imageKey = new GlobalKey();
+    videoViewController = new VlcPlayerController();
     super.initState();
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -30,55 +38,25 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Align(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Text('BUZZ',
-                  style: TextStyle(
-                    fontSize: 50,
-                    color: Colors.amber[800],
-                    letterSpacing: 2.0,
-                  )),
-              SizedBox(height: 20.0),
-              FlatButton.icon(
-                onPressed: () {
-                  // takes the user to the camera page TBA
-                  Navigator.pushNamed(context, '/check_camera');
-                },
-                icon: Icon(
-                  Icons.videocam,
-                  color: Colors.green,
-                  size: 150,
-                ),
-                label: Text(''),
-                color: Colors.grey[300],
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          VlcPlayer(
+            defaultHeight: 400,
+            defaultWidth: 200,
+            url: "***REMOVED***",
+            controller: videoViewController,
+            placeholder: Container(
+              height: 200,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  CircularProgressIndicator()
+                ],
               ),
-              SizedBox(height: 20.0),
-              Text('Visitors',
-                  style: TextStyle(
-                    fontSize: 50,
-                    color: Colors.amber[800],
-                    letterSpacing: 2.0,
-                  )),
-              FlatButton.icon(
-                onPressed: () {
-                  // navigates user to the visitor page
-                  Navigator.pushNamed(context, '/visitors_page');
-                },
-                icon: Icon(
-                  Icons.person,
-                  color: Colors.blueGrey[700],
-                  size: 150,
-                ),
-                label: Text(''),
-              ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
