@@ -33,6 +33,7 @@ class _HomeState extends State<Home> {
         print("onResume: $message");
       },
     );
+    _firebaseMessaging.subscribeToTopic("global");
   }
 
   @override

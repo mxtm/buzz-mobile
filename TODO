@@ -1,0 +1,2 @@
+- Move "config" values like server URL and firebase login tokens to a singular location allowing for
+users to easily reproduce their own "Buzz"
