@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         applicationId "us.team.america.buzz"
-        minSdkVersion 16
+        minSdkVersion 28
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

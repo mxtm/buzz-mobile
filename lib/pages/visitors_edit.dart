@@ -81,7 +81,10 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               {
                 lastName = data['lastName'];
               }
-              data['image'] = await uploadImage(fileImage, firstName, lastName);
+              if (fileImage != null)
+              {
+                data['image'] = await uploadImage(fileImage, firstName, lastName);
+              }
               Navigator.pop(context, {
                 'firstName': firstName,
                 'lastName': lastName,
