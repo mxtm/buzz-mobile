@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:buzz/services/database.dart';
 import 'package:buzz/services/visitor.dart';
-import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -58,6 +57,8 @@ class _VisitorsPageState extends State<VisitorsPage> {
                           caption: 'Call',
                           color: Colors.green,
                           icon: Icons.call,
+                          onTap: () {
+                            launch("tel:"+snapshot.data[index].number);},
                         ),
                       ],
                       child: Padding(
