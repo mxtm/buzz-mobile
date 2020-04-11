@@ -89,7 +89,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                             title: Text(
                               snapshot.data[index].firstName +
                                   ' ' +
-                                  snapshot.data[index].lastName
+                                  snapshot.data[index].lastName,
                             ),
                           ),
                         ),
