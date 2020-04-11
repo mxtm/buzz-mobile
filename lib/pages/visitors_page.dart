@@ -3,6 +3,7 @@ import 'package:buzz/services/database.dart';
 import 'package:buzz/services/visitor.dart';
 import 'package:get_it/get_it.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class VisitorsPage extends StatefulWidget {
   @override
@@ -50,13 +51,15 @@ class _VisitorsPageState extends State<VisitorsPage> {
                   // get the number of visitors
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return Dismissible(
-                      key: UniqueKey(),
-                      background: Container(color: Colors.green),
-                      onDismissed: (direction) {
-//                        var dbHelper = DBHandler();
-//                        dbHelper.deleteVisitor(snapshot.data[index].id);
-                      },
+                    return Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      actions: <Widget>[
+                        new IconSlideAction(
+                          caption: 'Call',
+                          color: Colors.green,
+                          icon: Icons.call,
+                        ),
+                      ],
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
                           vertical: 2.0,
@@ -89,9 +92,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   NetworkImage(snapshot.data[index].image),
                             ),
                             title: Text(
-                              snapshot.data[index].firstName +
-                                  ' ' +
-                                  snapshot.data[index].lastName,
+                              snapshot.data[index].firstName + ' ' + snapshot.data[index].lastName,
                             ),
                           ),
                         ),
