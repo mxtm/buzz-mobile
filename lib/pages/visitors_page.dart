@@ -8,10 +8,10 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
-//TODO figure this out
+
   Future<List<Visitor>> fetchVisitors() async {
     var dbHelper = DBHandler();
-    Future<List<Visitor>> visitors = dbHelper.getVisitors();
+    Future<List<Visitor>> visitors = dbHelper.getCollection();
     return visitors;
   }
 

@@ -9,24 +9,13 @@ class Visitor {
   String image;
 
   Visitor(this.firstName, this.lastName, this.image);
-//  {
-//    this.firstName = firstName;
-//    this.lastName = lastName;
-//    this.image = image;
-//  }
+
 
   Visitor.withID(this.id, this.firstName, this.lastName, this.image);
-//  {
-//    this.id = id;
-//    this.firstName = firstName;
-//    this.lastName = lastName;
-//    this.image = image;
-//  }
 
-//  Map<String, dynamic> toMap() => {
-//    "id": id,
-//    "firstName": firstName,
-//    "lastName": lastName,
-//    "image:": image,
-//  };
+  String toString()
+  {
+    return (this.firstName + " "+ this.lastName + " "+ this.image);
+  }
+
 }
