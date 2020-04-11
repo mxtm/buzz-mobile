@@ -95,6 +95,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
               decoration: InputDecoration(hintText: number == ''?'Contact number':number),
+              keyboardType: TextInputType.number,
               onChanged: (String str) {
                 setState(() {
                   number = str;

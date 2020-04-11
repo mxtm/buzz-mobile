@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:buzz/services/database.dart';
 import 'package:buzz/services/visitor.dart';
+import 'package:get_it/get_it.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VisitorsPage extends StatefulWidget {
   @override
@@ -50,10 +52,10 @@ class _VisitorsPageState extends State<VisitorsPage> {
                   itemBuilder: (context, index) {
                     return Dismissible(
                       key: UniqueKey(),
-                      background: Container(color: Colors.red),
+                      background: Container(color: Colors.green),
                       onDismissed: (direction) {
-                        var dbHelper = DBHandler();
-                        dbHelper.deleteVisitor(snapshot.data[index].id);
+//                        var dbHelper = DBHandler();
+//                        dbHelper.deleteVisitor(snapshot.data[index].id);
                       },
                       child: Padding(
                         padding: const EdgeInsets.symmetric(

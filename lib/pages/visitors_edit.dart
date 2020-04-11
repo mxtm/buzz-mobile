@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:buzz/services/database.dart';
+import 'package:buzz/services/visitor.dart';
 
 class VisitorsEdit extends StatefulWidget {
   @override
@@ -119,6 +121,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               decoration: InputDecoration(
                 hintText: data['number'],
               ),
+              keyboardType: TextInputType.number,
               onChanged: (String str) {
                 setState(() {
                   number = str;
@@ -149,8 +152,17 @@ class _VisitorsEditState extends State<VisitorsEdit> {
                 });
               },
             )
-          ])
+          ]),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          var dbHelper = DBHandler();
+          dbHelper.deleteVisitor(data['id']);
+          Navigator.pop(context,{});
+        },
+        child: Icon(Icons.delete),
+        backgroundColor: Colors.red,
       ),
     );
   }
