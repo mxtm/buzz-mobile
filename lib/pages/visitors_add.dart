@@ -1,3 +1,4 @@
+import 'package:buzz/services/database.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
@@ -19,13 +20,11 @@ class _VisitorsAddState extends State<VisitorsAdd> {
     return url;
   }
 
-  Future<String> uploadImage(
-      File image, String firstName, String lastName) async {
-    //TODO figure out way to have many people with the same name
+  Future<String> uploadImage(File image, int id) async {
     String downloadUrl;
     StorageReference reference = FirebaseStorage.instance.ref();
     if (image != null) {
-      reference = reference.child('$firstName $lastName');
+      reference = reference.child('$id');
       StorageUploadTask uploadTask = reference.putFile(image);
       await uploadTask.onComplete;
       await getImageUrl(reference).then((url) {
@@ -56,7 +55,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               ),
             ),
             onPressed: () async {
-              image = await uploadImage(fileImage, first, last);
+              image = await uploadImage(fileImage, DBHandler.idCount);
               Navigator.pop(context, {
                 'firstName': first,
                 'lastName': last,

@@ -10,7 +10,6 @@ class Visitor {
 
   Visitor(this.firstName, this.lastName, this.image);
 
-
   Visitor.withID(this.id, this.firstName, this.lastName, this.image);
 
   String toString()

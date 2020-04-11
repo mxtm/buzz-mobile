@@ -1,5 +1,6 @@
 import 'package:buzz/services/visitor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DBHandler {
   final databaseReference = Firestore.instance;
@@ -31,7 +32,7 @@ class DBHandler {
       });
     } catch (e) {
       print(e.toString());
-    };
+    }
   }
 
   void deleteVisitor(int id) async {
@@ -40,6 +41,8 @@ class DBHandler {
     } catch (e) {
       print(e.toString());
     }
+    StorageReference reference = FirebaseStorage.instance.ref().child("$id");
+    reference.delete();
   }
 
   Future<List<Visitor>> getCollection() async {
@@ -59,7 +62,7 @@ class DBHandler {
             first = doc.data['firstName'];
             last = doc.data['lastName'];
             image = doc.data['image'];
-            visitors.add(Visitor.withID(int.parse(idLocal),first,last,image));
+            visitors.add(Visitor.withID(int.parse(idLocal), first, last, image));
           });
     }) ;
     idCount = max + 1;

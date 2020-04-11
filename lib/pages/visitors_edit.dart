@@ -8,8 +8,6 @@ class VisitorsEdit extends StatefulWidget {
   _VisitorsEditState createState() => _VisitorsEditState();
 }
 
-// TODO make sure to show the original name when editing if nothing is present in the text editor box
-
 class _VisitorsEditState extends State<VisitorsEdit> {
   Map data = {};
   String firstName = '';
@@ -22,13 +20,11 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     return url;
   }
 
-  Future<String> uploadImage(
-      File image, String firstName, String lastName) async {
-    //TODO figure out way to have many people with the same name
+  Future<String> uploadImage(File image, int id) async {
     String downloadUrl;
     StorageReference reference = FirebaseStorage.instance.ref();
     if (image != null) {
-      reference = reference.child("$firstName $lastName ${data['id']}");
+      reference = reference.child("$id");
       StorageUploadTask uploadTask = reference.putFile(image);
       await uploadTask.onComplete;
       await getImageUrl(reference).then((url) {
@@ -42,17 +38,6 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     }
     return downloadUrl;
   }
-
-  //TODO fix the delete images
-//  deleteImage(String image) async {
-//    if (image == null) {
-//        return;
-//    }
-//    else {
-//      StorageReference reference = await FirebaseStorage.instance.getReferenceFromUrl(image);
-//      await reference.delete();
-//    }
-//  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,8 +56,6 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               ),
             ),
             onPressed: () async {
-              //TODO delete old image from firebase
-              //await deleteImage(data['image']);
               if (firstName == '' || firstName == null)
                 {
                   firstName = data['firstName'];
@@ -83,7 +66,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               }
               if (fileImage != null)
               {
-                data['image'] = await uploadImage(fileImage, firstName, lastName);
+                data['image'] = await uploadImage(fileImage, data['id']);
               }
               Navigator.pop(context, {
                 'firstName': firstName,
