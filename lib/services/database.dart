@@ -43,6 +43,7 @@ class DBHandler {
   }
 
   Future<List<Visitor>> getCollection() async {
+    int max = -1;
     String first;
     String last;
     String image;
@@ -51,13 +52,17 @@ class DBHandler {
         .getDocuments().then((QuerySnapshot snapshot) {
           snapshot.documents.forEach((doc) {
             idLocal = doc.documentID;
+            if (int.parse(idLocal) > max)
+              {
+                max = int.parse(idLocal);
+              }
             first = doc.data['firstName'];
             last = doc.data['lastName'];
             image = doc.data['image'];
             visitors.add(Visitor.withID(int.parse(idLocal),first,last,image));
           });
     }) ;
-    idCount = visitors.last.id + 1;
+    idCount = max + 1;
     return visitors;
   }
 }

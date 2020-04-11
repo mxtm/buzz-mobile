@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:buzz/services/visitor.dart';
 
 class VisitorsAdd extends StatefulWidget {
   @override
@@ -73,7 +71,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(hintText: 'First Name'),
+              decoration: InputDecoration(hintText: first ==''?'First Name':first),
               onChanged: (String str) {
                 setState(() {
                   first = str;
@@ -84,7 +82,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(hintText: 'Last Name'),
+              decoration: InputDecoration(hintText: last == ''?'Last Name':last),
               onChanged: (String str) {
                 setState(() {
                   last = str;
@@ -99,8 +97,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               RaisedButton(
                 child: Text("Camera"),
                 onPressed: () async {
-                  File f =
-                      await ImagePicker.pickImage(source: ImageSource.camera);
+                  FocusScope.of(context).unfocus(focusPrevious: true);
+                  File f = await ImagePicker.pickImage(source: ImageSource.camera);
                   setState(() {
                     fileImage = f;
                   });
@@ -110,8 +108,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               RaisedButton(
                   child: Text("Gallery"),
                   onPressed: () async {
-                    File f = await ImagePicker.pickImage(
-                        source: ImageSource.gallery);
+                    FocusScope.of(context).unfocus(focusPrevious: true);
+                    File f = await ImagePicker.pickImage(source: ImageSource.gallery);
                     setState(() {
                       fileImage = f;
                     });

@@ -127,8 +127,8 @@ class _VisitorsEditState extends State<VisitorsEdit> {
             RaisedButton(
               child: Text("Camera"),
               onPressed: () async {
-                File f =
-                    await ImagePicker.pickImage(source: ImageSource.camera);
+                FocusScope.of(context).unfocus(focusPrevious: true);
+                File f = await ImagePicker.pickImage(source: ImageSource.camera);
                 setState(() {
                   fileImage = f;
                 });
@@ -138,8 +138,8 @@ class _VisitorsEditState extends State<VisitorsEdit> {
             RaisedButton(
               child: Text("Gallery"),
               onPressed: () async {
-                File f =
-                    await ImagePicker.pickImage(source: ImageSource.gallery);
+                FocusScope.of(context).unfocus(focusPrevious: true);
+                File f = await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
                   fileImage = f;
                 });
