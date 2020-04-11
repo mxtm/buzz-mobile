@@ -13,6 +13,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
   String first = '';
   String last = '';
   String image = '';
+  String number = '';
   File fileImage;
 
   Future<String> getImageUrl(StorageReference reference) async {
@@ -59,6 +60,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               Navigator.pop(context, {
                 'firstName': first,
                 'lastName': last,
+                'number' : number,
                 'image': image,
               });
             },
@@ -85,6 +87,17 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               onChanged: (String str) {
                 setState(() {
                   last = str;
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
+            child: TextField(
+              decoration: InputDecoration(hintText: number == ''?'Contact number':number),
+              onChanged: (String str) {
+                setState(() {
+                  number = str;
                 });
               },
             ),

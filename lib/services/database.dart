@@ -10,6 +10,7 @@ class DBHandler {
   void saveVisitors(Visitor visitor) async {
     String firstName = visitor.firstName;
     String lastName = visitor.lastName;
+    String number = visitor.number;
     String image = visitor.image;
     int id = idCount;
 
@@ -17,6 +18,7 @@ class DBHandler {
     .setData({
       'firstName': firstName,
       'lastName': lastName,
+      'number': number,
       'image': image,
     });
     idCount++;
@@ -28,6 +30,7 @@ class DBHandler {
           .updateData({
         'firstName': v.firstName,
         'lastName': v.lastName,
+        'number': v.number,
         'image': v.image,
       });
     } catch (e) {
@@ -49,6 +52,7 @@ class DBHandler {
     int max = -1;
     String first;
     String last;
+    String number;
     String image;
     String idLocal;
     await databaseReference.collection("visitors")
@@ -61,8 +65,9 @@ class DBHandler {
               }
             first = doc.data['firstName'];
             last = doc.data['lastName'];
+            number = doc.data['number'];
             image = doc.data['image'];
-            visitors.add(Visitor.withID(int.parse(idLocal), first, last, image));
+            visitors.add(Visitor.withID(int.parse(idLocal), first, last,number, image));
           });
     }) ;
     idCount = max + 1;

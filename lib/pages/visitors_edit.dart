@@ -12,6 +12,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
   Map data = {};
   String firstName = '';
   String lastName = '';
+  String number = '';
   File fileImage;
 
   //TODO make a class for these functions. Used here and in add
@@ -63,6 +64,12 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               if (lastName == '' || lastName == null)
               {
                 lastName = data['lastName'];
+
+              }
+              if (number == '' || number == null)
+              {
+                number = data['number'];
+
               }
               if (fileImage != null)
               {
@@ -71,6 +78,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               Navigator.pop(context, {
                 'firstName': firstName,
                 'lastName': lastName,
+                'number': number,
                 'image': data['image'],
               });
             },
@@ -101,6 +109,19 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               onChanged: (String str) {
                 setState(() {
                   lastName = str;
+                });
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: data['number'],
+              ),
+              onChanged: (String str) {
+                setState(() {
+                  number = str;
                 });
               },
             ),

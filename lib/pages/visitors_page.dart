@@ -34,7 +34,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                 setState(() {
                   var dbHelper = DBHandler();
                   var visitor = Visitor(
-                      result['firstName'], result['lastName'], result['image']);
+                      result['firstName'], result['lastName'],result['number'], result['image']);
                   dbHelper.saveVisitors(visitor);
                 });
               }),
@@ -69,6 +69,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   arguments: {
                                     'firstName': snapshot.data[index].firstName,
                                     'lastName': snapshot.data[index].lastName,
+                                    'number': snapshot.data[index].number,
                                     'image': snapshot.data[index].image,
                                     'id' :snapshot.data[index].id,
                                   });
@@ -77,6 +78,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   snapshot.data[index].id,
                                   result['firstName'],
                                   result['lastName'],
+                                  result['number'],
                                   result['image']));
                               setState(() {});
                             },
@@ -87,7 +89,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                             title: Text(
                               snapshot.data[index].firstName +
                                   ' ' +
-                                  snapshot.data[index].lastName,
+                                  snapshot.data[index].lastName
                             ),
                           ),
                         ),
