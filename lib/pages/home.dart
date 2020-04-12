@@ -5,6 +5,7 @@ import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
 import 'package:flutter_vlc_player/vlc_player.dart';
 import 'package:flutter_vlc_player/vlc_player_controller.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,11 +17,21 @@ class _HomeState extends State<Home> {
   VlcPlayerController videoViewController;
   GlobalKey imageKey;
 
-  @override
-  void initState() {
-    imageKey = new GlobalKey();
-    videoViewController = new VlcPlayerController();
-    super.initState();
+  void setupNotifications() async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = IOSInitializationSettings(
+        // onDidReceiveLocalNotification: onDidReceiveLocalNotification
+        );
+    var initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+
+    await flutterLocalNotificationsPlugin.initialize(
+        initializationSettings /*, onSelectNotification: selectNotification*/);
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -32,7 +43,18 @@ class _HomeState extends State<Home> {
         print("onResume: $message");
       },
     );
+
     _firebaseMessaging.subscribeToTopic("global");
+  }
+
+  @override
+  void initState() {
+    imageKey = new GlobalKey();
+    videoViewController = new VlcPlayerController();
+
+    super.initState();
+
+    setupNotifications();
   }
 
   @override
