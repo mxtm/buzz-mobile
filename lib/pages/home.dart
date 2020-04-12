@@ -32,6 +32,19 @@ class _HomeState extends State<Home> {
     await flutterLocalNotificationsPlugin.initialize(
         initializationSettings /*, onSelectNotification: selectNotification*/);
 
+    var androidNotificationChannel = AndroidNotificationChannel(
+      'door',
+      'Door Notifications',
+      'Notifications of someone at your door.',
+      importance: Importance.Max,
+      sound: RawResourceAndroidNotificationSound('doorbell'),
+    );
+
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(androidNotificationChannel);
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
