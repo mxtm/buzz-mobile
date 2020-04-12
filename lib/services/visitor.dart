@@ -9,13 +9,18 @@ class Visitor {
   String number;
   String image;
 
-  Visitor(this.firstName, this.lastName,this.number ,this.image);
+  Visitor(this.firstName, this.lastName, this.number, this.image);
 
-  Visitor.withID(this.id, this.firstName, this.lastName, this.number, this.image);
+  Visitor.withID(
+      this.id, this.firstName, this.lastName, this.number, this.image);
 
-  String toString()
-  {
-    return (this.firstName + " "+ this.lastName + " " + this.number + " " + this.image);
+  String toString() {
+    return (this.firstName +
+        " " +
+        this.lastName +
+        " " +
+        this.number +
+        " " +
+        this.image);
   }
-
 }

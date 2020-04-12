@@ -14,8 +14,7 @@ class DBHandler {
     String image = visitor.image;
     int id = idCount;
 
-    await databaseReference.collection("visitors").document("$id")
-    .setData({
+    await databaseReference.collection("visitors").document("$id").setData({
       'firstName': firstName,
       'lastName': lastName,
       'number': number,
@@ -26,7 +25,9 @@ class DBHandler {
 
   editVisitor(Visitor v) async {
     try {
-      await databaseReference.collection("visitors").document("${v.id}")
+      await databaseReference
+          .collection("visitors")
+          .document("${v.id}")
           .updateData({
         'firstName': v.firstName,
         'lastName': v.lastName,
@@ -55,21 +56,23 @@ class DBHandler {
     String number;
     String image;
     String idLocal;
-    await databaseReference.collection("visitors")
-        .getDocuments().then((QuerySnapshot snapshot) {
-          snapshot.documents.forEach((doc) {
-            idLocal = doc.documentID;
-            if (int.parse(idLocal) > max)
-              {
-                max = int.parse(idLocal);
-              }
-            first = doc.data['firstName'];
-            last = doc.data['lastName'];
-            number = doc.data['number'];
-            image = doc.data['image'];
-            visitors.add(Visitor.withID(int.parse(idLocal), first, last,number, image));
-          });
-    }) ;
+    await databaseReference
+        .collection("visitors")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((doc) {
+        idLocal = doc.documentID;
+        if (int.parse(idLocal) > max) {
+          max = int.parse(idLocal);
+        }
+        first = doc.data['firstName'];
+        last = doc.data['lastName'];
+        number = doc.data['number'];
+        image = doc.data['image'];
+        visitors.add(
+            Visitor.withID(int.parse(idLocal), first, last, number, image));
+      });
+    });
     idCount = max + 1;
     return visitors;
   }

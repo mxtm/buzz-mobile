@@ -6,7 +6,6 @@ import 'package:buzz/pages/visitors_page.dart';
 import 'package:flutter_vlc_player/vlc_player.dart';
 import 'package:flutter_vlc_player/vlc_player_controller.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -44,7 +43,7 @@ class _HomeState extends State<Home> {
         children: <Widget>[
           // TODO: Remove the black bars from the side of the VlcPlayer
           AspectRatio(
-            aspectRatio: 4/3,
+            aspectRatio: 4 / 3,
             child: VlcPlayer(
               url: "***REMOVED***",
               controller: videoViewController,
@@ -52,9 +51,7 @@ class _HomeState extends State<Home> {
                 height: 200,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator()
-                  ],
+                  children: <Widget>[CircularProgressIndicator()],
                 ),
               ),
             ),

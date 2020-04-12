@@ -60,7 +60,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
               Navigator.pop(context, {
                 'firstName': first,
                 'lastName': last,
-                'number' : number,
+                'number': number,
                 'image': image,
               });
             },
@@ -72,7 +72,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(hintText: first ==''?'First Name':first),
+              decoration:
+                  InputDecoration(hintText: first == '' ? 'First Name' : first),
               onChanged: (String str) {
                 setState(() {
                   first = str;
@@ -83,7 +84,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(hintText: last == ''?'Last Name':last),
+              decoration:
+                  InputDecoration(hintText: last == '' ? 'Last Name' : last),
               onChanged: (String str) {
                 setState(() {
                   last = str;
@@ -94,7 +96,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
             child: TextField(
-              decoration: InputDecoration(hintText: number == ''?'Contact number':number),
+              decoration: InputDecoration(
+                  hintText: number == '' ? 'Contact number' : number),
               keyboardType: TextInputType.number,
               onChanged: (String str) {
                 setState(() {
@@ -111,7 +114,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
                 child: Text("Camera"),
                 onPressed: () async {
                   FocusScope.of(context).unfocus(focusPrevious: true);
-                  File f = await ImagePicker.pickImage(source: ImageSource.camera);
+                  File f =
+                      await ImagePicker.pickImage(source: ImageSource.camera);
                   setState(() {
                     fileImage = f;
                   });
@@ -122,7 +126,8 @@ class _VisitorsAddState extends State<VisitorsAdd> {
                   child: Text("Gallery"),
                   onPressed: () async {
                     FocusScope.of(context).unfocus(focusPrevious: true);
-                    File f = await ImagePicker.pickImage(source: ImageSource.gallery);
+                    File f = await ImagePicker.pickImage(
+                        source: ImageSource.gallery);
                     setState(() {
                       fileImage = f;
                     });

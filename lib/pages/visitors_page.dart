@@ -10,7 +10,6 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
-
   Future<List<Visitor>> fetchVisitors() async {
     var dbHelper = DBHandler();
     Future<List<Visitor>> visitors = dbHelper.getCollection();
@@ -35,8 +34,8 @@ class _VisitorsPageState extends State<VisitorsPage> {
                     await Navigator.pushNamed(context, '/visitors_add');
                 setState(() {
                   var dbHelper = DBHandler();
-                  var visitor = Visitor(
-                      result['firstName'], result['lastName'],result['number'], result['image']);
+                  var visitor = Visitor(result['firstName'], result['lastName'],
+                      result['number'], result['image']);
                   dbHelper.saveVisitors(visitor);
                 });
               }),
@@ -58,7 +57,8 @@ class _VisitorsPageState extends State<VisitorsPage> {
                           color: Colors.green,
                           icon: Icons.call,
                           onTap: () {
-                            launch("tel:"+snapshot.data[index].number);},
+                            launch("tel:" + snapshot.data[index].number);
+                          },
                         ),
                       ],
                       child: Padding(
@@ -77,7 +77,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                     'lastName': snapshot.data[index].lastName,
                                     'number': snapshot.data[index].number,
                                     'image': snapshot.data[index].image,
-                                    'id' :snapshot.data[index].id,
+                                    'id': snapshot.data[index].id,
                                   });
                               var dbHelper = DBHandler();
                               await dbHelper.editVisitor(Visitor.withID(
@@ -93,7 +93,9 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   NetworkImage(snapshot.data[index].image),
                             ),
                             title: Text(
-                              snapshot.data[index].firstName + ' ' + snapshot.data[index].lastName,
+                              snapshot.data[index].firstName +
+                                  ' ' +
+                                  snapshot.data[index].lastName,
                             ),
                           ),
                         ),

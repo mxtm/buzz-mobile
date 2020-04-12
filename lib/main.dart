@@ -9,7 +9,6 @@ import 'package:buzz/pages/visitors_edit.dart';
 // when the app is opened, the loading screen is displayed
 // all routes are set up to direct to corresponding pages
 void main() => runApp(MaterialApp(
-
       initialRoute: '/',
       routes: {
         '/': (context) => Loading(),

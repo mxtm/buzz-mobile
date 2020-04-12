@@ -59,22 +59,16 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               ),
             ),
             onPressed: () async {
-              if (firstName == '' || firstName == null)
-                {
-                  firstName = data['firstName'];
-                }
-              if (lastName == '' || lastName == null)
-              {
+              if (firstName == '' || firstName == null) {
+                firstName = data['firstName'];
+              }
+              if (lastName == '' || lastName == null) {
                 lastName = data['lastName'];
-
               }
-              if (number == '' || number == null)
-              {
+              if (number == '' || number == null) {
                 number = data['number'];
-
               }
-              if (fileImage != null)
-              {
+              if (fileImage != null) {
                 data['image'] = await uploadImage(fileImage, data['id']);
               }
               Navigator.pop(context, {
@@ -135,7 +129,8 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               child: Text("Camera"),
               onPressed: () async {
                 FocusScope.of(context).unfocus(focusPrevious: true);
-                File f = await ImagePicker.pickImage(source: ImageSource.camera);
+                File f =
+                    await ImagePicker.pickImage(source: ImageSource.camera);
                 setState(() {
                   fileImage = f;
                 });
@@ -146,7 +141,8 @@ class _VisitorsEditState extends State<VisitorsEdit> {
               child: Text("Gallery"),
               onPressed: () async {
                 FocusScope.of(context).unfocus(focusPrevious: true);
-                File f = await ImagePicker.pickImage(source: ImageSource.gallery);
+                File f =
+                    await ImagePicker.pickImage(source: ImageSource.gallery);
                 setState(() {
                   fileImage = f;
                 });
@@ -159,7 +155,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
         onPressed: () {
           var dbHelper = DBHandler();
           dbHelper.deleteVisitor(data['id']);
-          Navigator.pop(context,{});
+          Navigator.pop(context, {});
         },
         child: Icon(Icons.delete),
         backgroundColor: Colors.red,
