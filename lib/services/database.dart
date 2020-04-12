@@ -1,10 +1,12 @@
 import 'package:buzz/services/visitor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:buzz/services/log.dart';
 
 class DBHandler {
   final databaseReference = Firestore.instance;
   List<Visitor> visitors = [];
+  List<VisitorLog> vLog = [];
   static int idCount;
 
   void saveVisitors(Visitor visitor) async {
@@ -75,5 +77,38 @@ class DBHandler {
     });
     idCount = max + 1;
     return visitors;
+  }
+
+  Future<List<VisitorLog>> getLog() async {
+//    String first;
+//    String last;
+//    String video;
+//    int logLength = 0;
+//    await databaseReference
+//        .collection("collectionName")
+//        .getDocuments()
+//        .then((QuerySnapshot snapshot) {
+//      snapshot.documents.forEach((doc) {
+//        first = doc.data['firstName'];
+//        last = doc.data['lastName'];
+//        video = doc.data['video'];
+//        vLog.add(
+//          VisitorLog(first,last,video)
+//        );
+//        logLength++;
+//        if (logLength > 19)
+//          {
+//            return vLog;
+//          }
+//      });
+//    });
+    vLog = [
+      VisitorLog("a","a","time1","a"),
+      VisitorLog("b","b","time2","b"),
+      VisitorLog("c","c","time3","c"),
+      VisitorLog("d","d","time4","d"),
+      VisitorLog("e","e","time5","e")
+    ];
+    return vLog;
   }
 }
