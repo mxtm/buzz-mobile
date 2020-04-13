@@ -103,8 +103,8 @@ class DBHandler {
 //      });
 //    });
     vLog = [
-      VisitorLog("a","a","time1","a"),
-      VisitorLog("b","b","time2","b"),
+      VisitorLog("a","a","time1","https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"),
+      VisitorLog("b","b","time2","https://www.radiantmediaplayer.com/media/bbb-360p.mp4"),
       VisitorLog("c","c","time3","c"),
       VisitorLog("d","d","time4","d"),
       VisitorLog("e","e","time5","e")

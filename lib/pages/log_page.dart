@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:buzz/services/log.dart';
 import 'package:buzz/services/database.dart';
+import 'package:flutter_vlc_player/vlc_player.dart';
+import 'package:flutter_vlc_player/vlc_player_controller.dart';
 
 class LogPage extends StatefulWidget {
   @override
@@ -10,6 +12,16 @@ class LogPage extends StatefulWidget {
 class _LogPageState extends State<LogPage> {
 
   String videoUrl = "";
+  int vidIndex = -1;
+  VlcPlayerController videoViewController;
+  GlobalKey imageKey;
+
+  @override
+  void initState() {
+    imageKey = new GlobalKey();
+    videoViewController = new VlcPlayerController();
+    super.initState();
+  }
 
   Future<List<VisitorLog>> fetchLog() async {
     var dbHelper = DBHandler();
@@ -28,11 +40,21 @@ class _LogPageState extends State<LogPage> {
         ),
         body: Column(
           children: <Widget>[
-            videoUrl == ""? Container()
-            : Container(
-              height: 40.0,
-              child: Center(child: Text(videoUrl)),
-            ),
+//            videoUrl == ""? Container()
+//            :AspectRatio(
+//              aspectRatio: 4/3,
+//              child: VlcPlayer(
+//                url: "$videoUrl",
+//                controller: videoViewController,
+//                placeholder: Container(
+//                  height: 200,
+//                  child: Row(
+//                    mainAxisAlignment: MainAxisAlignment.center,
+//                    children: <Widget>[CircularProgressIndicator()],
+//                  ),
+//                ),
+//              ),
+//            ),
             Expanded(
               child: FutureBuilder(
                 future: fetchLog(),
@@ -46,15 +68,44 @@ class _LogPageState extends State<LogPage> {
                             vertical: 2.0,
                             horizontal: 4.0,
                           ),
-                          child: Card(
+                          child: index != vidIndex? Card(
                             child: ListTile(
                               title: Text(snapshot.data[index].firstName + " " + snapshot.data[index].lastName + " " + snapshot.data[index].time),
                               onTap: () {
                                 setState(() {
                                   videoUrl = snapshot.data[index].video;
+                                  vidIndex = index;
                                 });
                               },
                             ),
+                          )
+                          : Column(
+                            children: <Widget>[
+                              Card(
+                                child: ListTile(
+                                  title: Text(snapshot.data[index].firstName + " " + snapshot.data[index].lastName + " " + snapshot.data[index].time),
+                                  onTap: () {
+                                    setState(() {
+                                      videoUrl = snapshot.data[index].video;
+                                    });
+                                  },
+                                ),
+                              ),
+                              AspectRatio(
+                                aspectRatio: 4/3,
+                                child: VlcPlayer(
+                                  url: "$videoUrl",
+                                  controller: videoViewController,
+                                  placeholder: Container(
+                                    height: 200,
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[CircularProgressIndicator()],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }
