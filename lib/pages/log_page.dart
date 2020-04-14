@@ -40,21 +40,6 @@ class _LogPageState extends State<LogPage> {
         ),
         body: Column(
           children: <Widget>[
-//            videoUrl == ""? Container()
-//            :AspectRatio(
-//              aspectRatio: 4/3,
-//              child: VlcPlayer(
-//                url: "$videoUrl",
-//                controller: videoViewController,
-//                placeholder: Container(
-//                  height: 200,
-//                  child: Row(
-//                    mainAxisAlignment: MainAxisAlignment.center,
-//                    children: <Widget>[CircularProgressIndicator()],
-//                  ),
-//                ),
-//              ),
-//            ),
             Expanded(
               child: FutureBuilder(
                 future: fetchLog(),
@@ -87,6 +72,7 @@ class _LogPageState extends State<LogPage> {
                                   onTap: () {
                                     setState(() {
                                       videoUrl = snapshot.data[index].video;
+                                      vidIndex = -1;
                                     });
                                   },
                                 ),

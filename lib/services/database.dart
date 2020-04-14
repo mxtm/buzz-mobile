@@ -81,7 +81,8 @@ class DBHandler {
 
   Future<List<VisitorLog>> getLog() async {
 //    String first;
-//    String last;
+//    String last
+//    String time;
 //    String video;
 //    int logLength = 0;
 //    await databaseReference
@@ -91,9 +92,10 @@ class DBHandler {
 //      snapshot.documents.forEach((doc) {
 //        first = doc.data['firstName'];
 //        last = doc.data['lastName'];
+//        time = doc.data['time'];
 //        video = doc.data['video'];
 //        vLog.add(
-//          VisitorLog(first,last,video)
+//          VisitorLog(first,last,time,video)
 //        );
 //        logLength++;
 //        if (logLength > 19)
