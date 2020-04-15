@@ -10,7 +10,6 @@ class LogPage extends StatefulWidget {
 }
 
 class _LogPageState extends State<LogPage> {
-
   String videoUrl = "";
   int vidIndex = -1;
   VlcPlayerController videoViewController;
@@ -32,81 +31,95 @@ class _LogPageState extends State<LogPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('Visitor Log'),
-          backgroundColor: Colors.amber[800],
-          centerTitle: true,
-        ),
-        body: Column(
-          children: <Widget>[
-            Expanded(
-              child: FutureBuilder(
-                future: fetchLog(),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: Text('Visitor Log'),
+        backgroundColor: Colors.amber[800],
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Expanded(
+            child: FutureBuilder(
+              future: fetchLog(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
                       itemCount: snapshot.data.length,
-                      itemBuilder: (context,index) {
+                      itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: 2.0,
                             horizontal: 4.0,
                           ),
-                          child: index != vidIndex? Card(
-                            child: ListTile(
-                              title: Text(snapshot.data[index].firstName + " " + snapshot.data[index].lastName + " " + snapshot.data[index].time),
-                              onTap: () {
-                                setState(() {
-                                  videoUrl = snapshot.data[index].video;
-                                  vidIndex = index;
-                                });
-                              },
-                            ),
-                          )
-                          : Column(
-                            children: <Widget>[
-                              Card(
-                                child: ListTile(
-                                  title: Text(snapshot.data[index].firstName + " " + snapshot.data[index].lastName + " " + snapshot.data[index].time),
-                                  onTap: () {
-                                    setState(() {
-                                      videoUrl = snapshot.data[index].video;
-                                      vidIndex = -1;
-                                    });
-                                  },
-                                ),
-                              ),
-                              AspectRatio(
-                                aspectRatio: 4/3,
-                                child: VlcPlayer(
-                                  url: "$videoUrl",
-                                  controller: videoViewController,
-                                  placeholder: Container(
-                                    height: 200,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
-                                      children: <Widget>[CircularProgressIndicator()],
-                                    ),
+                          child: index != vidIndex
+                              ? Card(
+                                  child: ListTile(
+                                    title: Text(snapshot.data[index].firstName +
+                                        " " +
+                                        snapshot.data[index].lastName +
+                                        " " +
+                                        snapshot.data[index].time),
+                                    onTap: () {
+                                      setState(() {
+                                        videoUrl = snapshot.data[index].video;
+                                        vidIndex = index;
+                                      });
+                                    },
                                   ),
+                                )
+                              : Column(
+                                  children: <Widget>[
+                                    Card(
+                                      child: ListTile(
+                                        title: Text(
+                                            snapshot.data[index].firstName +
+                                                " " +
+                                                snapshot.data[index].lastName +
+                                                " " +
+                                                snapshot.data[index].time),
+                                        onTap: () {
+                                          setState(() {
+                                            videoUrl =
+                                                snapshot.data[index].video;
+                                            vidIndex = -1;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                    AspectRatio(
+                                      aspectRatio: 4 / 3,
+                                      child: VlcPlayer(
+                                        url: "$videoUrl",
+                                        controller: videoViewController,
+                                        placeholder: Container(
+                                          height: 200,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              CircularProgressIndicator()
+                                            ],
+                                          ),
+                                        ),
+                                        defaultWidth: null,
+                                        defaultHeight: null,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
                         );
-                      }
-                    );
-                  }
-                  else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+                      });
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

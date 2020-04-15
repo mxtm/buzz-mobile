@@ -1,3 +1,4 @@
+import 'package:buzz/services/beemovie.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatefulWidget {
@@ -12,7 +13,7 @@ class _LoadingState extends State<Loading> {
   void setupRaspberryPi() async {
     // connect to the raspberry pi
     // await raspberry pi before going to home page
-    await Future.delayed(Duration(seconds: 1), () {});
+    await Future.delayed(Duration(seconds: 2), () {});
     Navigator.pushReplacementNamed(context, '/home');
   }
 
@@ -46,7 +47,35 @@ class _LoadingState extends State<Loading> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[Text('A 🇱🇧 🇺🇸 🇸🇪 collaboration')],
+            children: <Widget>[
+              Text('A 🇱🇧 🇺🇸 🇸🇪 collaboration'),
+            ],
+          ),
+          SizedBox(height: 50),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  child: Text(BeeMovieQuotes().toString(),
+                      style: TextStyle(
+                          fontStyle: FontStyle.italic, fontSize: 12.0)),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text('- Bee Movie (2007)',
+                    style:
+                        TextStyle(fontStyle: FontStyle.italic, fontSize: 12.0)),
+              ],
+            ),
           ),
         ],
       ),

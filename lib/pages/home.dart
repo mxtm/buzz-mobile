@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(androidNotificationChannel);
-    
+
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
@@ -76,7 +76,6 @@ class _HomeState extends State<Home> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // TODO: Remove the black bars from the side of the VlcPlayer
           AspectRatio(
             aspectRatio: 4 / 3,
             child: VlcPlayer(
@@ -89,6 +88,8 @@ class _HomeState extends State<Home> {
                   children: <Widget>[CircularProgressIndicator()],
                 ),
               ),
+              defaultHeight: null,
+              defaultWidth: null,
             ),
           ),
         ],
