@@ -96,6 +96,7 @@ class DBHandler {
         );
       });
     });
+    vLog = vLog.reversed;
     return vLog;
   }
 }
