@@ -69,10 +69,8 @@ class _LogPageState extends State<LogPage> {
                                   children: <Widget>[
                                     Card(
                                       child: ListTile(
-                                        title: Text(
-                                            snapshot.data[index].name +
-                                                " " +
-                                                snapshot.data[index].time),
+                                        title: Text(snapshot.data[index].name),
+                                        subtitle: Text(snapshot.data[index].time),
                                         onTap: () {
                                           setState(() {
                                             videoUrl =
