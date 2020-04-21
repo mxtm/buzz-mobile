@@ -55,11 +55,8 @@ class _LogPageState extends State<LogPage> {
                           child: index != vidIndex
                               ? Card(
                                   child: ListTile(
-                                    title: Text(snapshot.data[index].firstName +
-                                        " " +
-                                        snapshot.data[index].lastName +
-                                        " " +
-                                        snapshot.data[index].time),
+                                    title: Text(snapshot.data[index].name),
+                                    subtitle: Text(snapshot.data[index].time),
                                     onTap: () {
                                       setState(() {
                                         videoUrl = snapshot.data[index].video;
@@ -73,9 +70,7 @@ class _LogPageState extends State<LogPage> {
                                     Card(
                                       child: ListTile(
                                         title: Text(
-                                            snapshot.data[index].firstName +
-                                                " " +
-                                                snapshot.data[index].lastName +
+                                            snapshot.data[index].name +
                                                 " " +
                                                 snapshot.data[index].time),
                                         onTap: () {

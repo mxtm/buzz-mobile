@@ -1,8 +1,7 @@
 class VisitorLog {
-  String firstName;
-  String lastName;
+  String name;
   String time;
   String video;
 
-  VisitorLog(this.firstName, this.lastName, this.time, this.video);
+  VisitorLog(this.name, this.time, this.video);
 }

@@ -80,39 +80,22 @@ class DBHandler {
   }
 
   Future<List<VisitorLog>> getLog() async {
-//    String first;
-//    String last
-//    String time;
-//    String video;
-//    int logLength = 0;
-//    await databaseReference
-//        .collection("collectionName")
-//        .getDocuments()
-//        .then((QuerySnapshot snapshot) {
-//      snapshot.documents.forEach((doc) {
-//        first = doc.data['firstName'];
-//        last = doc.data['lastName'];
-//        time = doc.data['time'];
-//        video = doc.data['video'];
-//        vLog.add(
-//          VisitorLog(first,last,time,video)
-//        );
-//        logLength++;
-//        if (logLength > 19)
-//          {
-//            return vLog;
-//          }
-//      });
-//    });
-    vLog = [
-      VisitorLog("a", "a", "time1",
-          "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"),
-      VisitorLog("b", "b", "time2",
-          "https://www.radiantmediaplayer.com/media/bbb-360p.mp4"),
-      VisitorLog("c", "c", "time3", "c"),
-      VisitorLog("d", "d", "time4", "d"),
-      VisitorLog("e", "e", "time5", "e")
-    ];
+    String name;
+    String time;
+    String video;
+    await databaseReference
+        .collection("visitors_log")
+        .getDocuments()
+        .then((QuerySnapshot snapshot) {
+      snapshot.documents.forEach((doc) {
+        name = doc.data['visitors'];
+        time = doc.data['timestamp'];
+        video = doc.data['video'];
+        vLog.add(
+          VisitorLog(name,time,video)
+        );
+      });
+    });
     return vLog;
   }
 }
