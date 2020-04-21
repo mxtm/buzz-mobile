@@ -96,7 +96,7 @@ class DBHandler {
         );
       });
     });
-    vLog = vLog.reversed;
+    vLog = vLog.reversed.toList();
     return vLog;
   }
 }
