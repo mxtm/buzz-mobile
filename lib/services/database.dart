@@ -91,9 +91,7 @@ class DBHandler {
         name = doc.data['visitors'];
         time = doc.data['timestamp'];
         video = doc.data['video'];
-        vLog.add(
-          VisitorLog(name,time,video)
-        );
+        vLog.add(VisitorLog(name, time, video));
       });
     });
     vLog = vLog.reversed.toList();
