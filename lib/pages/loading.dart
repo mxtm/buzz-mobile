@@ -1,5 +1,6 @@
 import 'package:buzz/services/beemovie.dart';
 import 'package:flutter/material.dart';
+import 'package:buzz/services/database.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -17,10 +18,17 @@ class _LoadingState extends State<Loading> {
     Navigator.pushReplacementNamed(context, '/home');
   }
 
+  void getImages() async {
+    var db = new DBHandler();
+    await db.storeImages();
+  }
+
+
   @override
   void initState() {
     // run the original initState
     super.initState();
+    getImages();
     setupRaspberryPi();
   }
 

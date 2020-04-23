@@ -2,6 +2,8 @@ import 'package:buzz/services/visitor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:buzz/services/log.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class DBHandler {
   final databaseReference = Firestore.instance;
@@ -23,9 +25,11 @@ class DBHandler {
       'image': image,
     });
     idCount++;
+    await storeImages();
   }
 
   editVisitor(Visitor v) async {
+    String path = (await getApplicationDocumentsDirectory()).path;
     try {
       await databaseReference
           .collection("visitors")
@@ -39,9 +43,12 @@ class DBHandler {
     } catch (e) {
       print(e.toString());
     }
+    File('$path/${v.id}').delete();
+    await storeImages();
   }
 
   void deleteVisitor(int id) async {
+    String path = (await getApplicationDocumentsDirectory()).path;
     try {
       databaseReference.collection("visitors").document("$id").delete();
     } catch (e) {
@@ -49,6 +56,7 @@ class DBHandler {
     }
     StorageReference reference = FirebaseStorage.instance.ref().child("$id");
     reference.delete();
+    File('$path/$id').delete();
   }
 
   Future<List<Visitor>> getCollection() async {
@@ -77,6 +85,31 @@ class DBHandler {
     });
     idCount = max + 1;
     return visitors;
+  }
+
+  storeImages() async {
+    String path = (await getApplicationDocumentsDirectory()).path;
+    List<Visitor> v = await getCollection();
+    for (int i = 0; i < v.length; i++)
+    {
+      bool check = await File('$path/${v[i].id}').exists();
+      if (!check) {
+        HttpClient client = new HttpClient();
+        var downloadData = List<int>();
+        var fileSave = new File('$path/${v[i].id}');
+        print('${v[i].id}');
+        client.getUrl(Uri.parse(v[i].image))
+            .then((HttpClientRequest request) {
+          return request.close();
+        })
+            .then((HttpClientResponse response) {
+          response.listen((data) => downloadData.addAll(data),
+              onDone: () {
+                fileSave.writeAsBytes(downloadData);
+              });
+        });
+      }
+    }
   }
 
   Future<List<VisitorLog>> getLog() async {

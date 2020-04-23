@@ -3,6 +3,8 @@ import 'package:buzz/services/database.dart';
 import 'package:buzz/services/visitor.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 class VisitorsPage extends StatefulWidget {
   @override
@@ -10,8 +12,12 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
+
+  String path;
+
   Future<List<Visitor>> fetchVisitors() async {
     var dbHelper = DBHandler();
+    path = (await getApplicationDocumentsDirectory()).path;
     Future<List<Visitor>> visitors = dbHelper.getCollection();
     return visitors;
   }
@@ -90,7 +96,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                             },
                             leading: CircleAvatar(
                               backgroundImage:
-                                  NetworkImage(snapshot.data[index].image),
+                                  FileImage(File('$path/${snapshot.data[index].id}')),
                             ),
                             title: Text(
                               snapshot.data[index].firstName +
