@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
+import 'package:buzz/config.dart';
 import 'package:flutter_vlc_player/vlc_player.dart';
 import 'package:flutter_vlc_player/vlc_player_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -79,7 +80,7 @@ class _HomeState extends State<Home> {
           AspectRatio(
             aspectRatio: 4 / 3,
             child: VlcPlayer(
-              url: "***REMOVED***",
+              url: configuration.videoURL,
               controller: videoViewController,
               placeholder: Container(
                 height: 200,
