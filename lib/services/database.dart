@@ -2,6 +2,7 @@ import 'package:buzz/services/visitor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:buzz/services/log.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
@@ -43,7 +44,7 @@ class DBHandler {
     } catch (e) {
       print(e.toString());
     }
-    File('$path/${v.id}').delete();
+    await File('$path/${v.id}').delete();
     await storeImages();
   }
 
@@ -56,7 +57,7 @@ class DBHandler {
     }
     StorageReference reference = FirebaseStorage.instance.ref().child("$id");
     reference.delete();
-    File('$path/$id').delete();
+    await File('$path/$id').delete();
   }
 
   Future<List<Visitor>> getCollection() async {
@@ -87,6 +88,7 @@ class DBHandler {
     return visitors;
   }
 
+  //TODO figure out the async/await situation
   storeImages() async {
     String path = (await getApplicationDocumentsDirectory()).path;
     List<Visitor> v = await getCollection();
@@ -94,21 +96,30 @@ class DBHandler {
     {
       bool check = await File('$path/${v[i].id}').exists();
       if (!check) {
+        File file = new File('$path/${v[i].id}');
         HttpClient client = new HttpClient();
-        var downloadData = List<int>();
-        var fileSave = new File('$path/${v[i].id}');
-        print('${v[i].id}');
-        client.getUrl(Uri.parse(v[i].image))
-            .then((HttpClientRequest request) {
-          return request.close();
-        })
-            .then((HttpClientResponse response) {
-          response.listen((data) => downloadData.addAll(data),
-              onDone: () {
-                fileSave.writeAsBytes(downloadData);
-              });
-        });
+        var request = await client.getUrl(Uri.parse(v[i].image));
+        var response = await request.close();
+        var bytes = await consolidateHttpClientResponseBytes(response);
+        await file.writeAsBytes(bytes);
+        print('done${v[i].id}');
       }
+    }
+  }
+
+  storeVideos(String name,String time,String video) async {
+    String path = (await getApplicationDocumentsDirectory()).path;
+    bool check = await File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}').exists();
+    if (!check) {
+      File file = new File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}');
+      print('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}');
+      HttpClient client = new HttpClient();
+      var request = await client.getUrl(Uri.parse(video));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      print(await File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}').exists());
+      await file.writeAsBytes(bytes);
+      print('done');
     }
   }
 

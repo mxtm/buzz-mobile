@@ -5,15 +5,16 @@ import 'package:buzz/services/database.dart';
 import 'package:video_player/video_player.dart';
 
 class LogPage extends StatefulWidget {
+  LogPage({Key key}) : super(key: key);
   @override
   _LogPageState createState() => _LogPageState();
 }
 
-class _LogPageState extends State<LogPage> {
+class _LogPageState extends State<LogPage>{
+
   String videoUrl = "";
   int vidIndex = -1;
   GlobalKey imageKey;
-
   VideoPlayerController _controller;
 
   void _initController(String link) {
@@ -74,7 +75,9 @@ class _LogPageState extends State<LogPage> {
                                     child: ListTile(
                                       title: Text(snapshot.data[index].name),
                                       subtitle: Text(snapshot.data[index].time),
-                                      onTap: () {
+                                      onTap: () async {
+                                        //var dbHelper = DBHandler();
+                                        //await dbHelper.storeVideos(snapshot.data[index].name,snapshot.data[index].time,snapshot.data[index].video);
                                         setState(() {
                                           videoUrl = snapshot.data[index].video;
                                           vidIndex = index;

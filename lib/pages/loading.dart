@@ -8,28 +8,18 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-  // when launching the app
-  // this should connect to the raspberry pi
-  // then after connecting it should take the user to the home page
-  void setupRaspberryPi() async {
-    // connect to the raspberry pi
-    // await raspberry pi before going to home page
-    await Future.delayed(Duration(seconds: 2), () {});
+
+  wait() async {
+    var dbHelper = DBHandler();
+    await dbHelper.storeImages();
     Navigator.pushReplacementNamed(context, '/home');
   }
-
-  void getImages() async {
-    var db = new DBHandler();
-    await db.storeImages();
-  }
-
 
   @override
   void initState() {
     // run the original initState
     super.initState();
-    getImages();
-    setupRaspberryPi();
+    wait();
   }
 
   @override

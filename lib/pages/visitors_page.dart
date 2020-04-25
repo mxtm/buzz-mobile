@@ -7,23 +7,40 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class VisitorsPage extends StatefulWidget {
+  const VisitorsPage({Key key}) : super(key: key);
   @override
   _VisitorsPageState createState() => _VisitorsPageState();
 }
 
-class _VisitorsPageState extends State<VisitorsPage> {
+class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   String path;
+  Future<List<Visitor>> visitors;
+
+  @override
+  void initState() {
+    super.initState();
+    print('here');
+    visitors = fetchVisitors();
+  }
+
+  first() async {
+
+  }
 
   Future<List<Visitor>> fetchVisitors() async {
-    var dbHelper = DBHandler();
-    path = (await getApplicationDocumentsDirectory()).path;
-    Future<List<Visitor>> visitors = dbHelper.getCollection();
-    return visitors;
+      var dbHelper = DBHandler();
+      path = (await getApplicationDocumentsDirectory()).path;
+      final Future<List<Visitor>> visitors = dbHelper.getCollection();
+      return visitors;
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,17 +55,18 @@ class _VisitorsPageState extends State<VisitorsPage> {
               onPressed: () async {
                 dynamic result =
                     await Navigator.pushNamed(context, '/visitors_add');
+                var dbHelper = DBHandler();
+                var visitor = Visitor(result['firstName'], result['lastName'],
+                    result['number'], result['image']);
+                dbHelper.saveVisitors(visitor);
+                await first();
                 setState(() {
-                  var dbHelper = DBHandler();
-                  var visitor = Visitor(result['firstName'], result['lastName'],
-                      result['number'], result['image']);
-                  dbHelper.saveVisitors(visitor);
                 });
               }),
         ],
       ),
       body: FutureBuilder(
-          future: fetchVisitors(),
+          future: visitors,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
@@ -92,6 +110,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   result['lastName'],
                                   result['number'],
                                   result['image']));
+                              await first();
                               setState(() {});
                             },
                             leading: CircleAvatar(
