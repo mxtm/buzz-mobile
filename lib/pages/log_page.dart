@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:buzz/services/log.dart';
 import 'package:buzz/services/database.dart';
-//import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
 
 class LogPage extends StatefulWidget {
@@ -15,6 +14,11 @@ class _LogPageState extends State<LogPage>{
   int vidIndex = -1;
   GlobalKey imageKey;
   VideoPlayerController _controller;
+
+  final _scrollController = ScrollController();
+  void _moveToVideo(int index){
+    _scrollController.animateTo(80.0 * index, duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+  }
 
   void _initController(String link) {
     _controller = VideoPlayerController.network(link)
@@ -62,6 +66,7 @@ class _LogPageState extends State<LogPage>{
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                      controller: _scrollController,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         return Padding(
@@ -80,6 +85,7 @@ class _LogPageState extends State<LogPage>{
                                         setState(() {
                                           videoUrl = snapshot.data[index].video;
                                           vidIndex = index;
+                                          _moveToVideo(index);
                                           _startVideoPlayer(videoUrl);
                                         });
                                       },
