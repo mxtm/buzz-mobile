@@ -110,21 +110,46 @@ class BNB extends StatefulWidget {
 
 class _BNBState extends State<BNB> {
   int _currentIndex = 1;
-  List<Widget> children = [
-    LogPage(),
-    Home(),
-    VisitorsPage(),
-  ];
+//  List<Widget> children = [
+//    LogPage(),
+//    Home(),
+//    VisitorsPage(),
+//  ];
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: children,
-      ),
+//      body: IndexedStack(
+//        index: _currentIndex,
+//        children: children,
+//      ),
 //      body: children[_currentIndex],
+      body: new Stack(
+        children: <Widget>[
+          new Offstage(
+            offstage: _currentIndex != 0,
+            child: new TickerMode(
+                enabled: _currentIndex == 0,
+                child: LogPage(),
+            ),
+          ),
+          new Offstage(
+            offstage: _currentIndex != 1,
+            child: new TickerMode(
+              enabled: _currentIndex == 1,
+              child: Home(),
+            ),
+          ),
+          new Offstage(
+            offstage: _currentIndex != 2,
+            child: new TickerMode(
+              enabled: _currentIndex == 2,
+              child: VisitorsPage(),
+            ),
+          ),
+        ],
+      ) ,
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,

@@ -74,7 +74,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                         ),
                         child: Card(
                           // to list different visitors
-                          child: ListTile(
+                          child: File('$path/${snapshot.data[index].id}').existsSync()? ListTile(
                             onTap: () async {
                               dynamic result = await Navigator.pushNamed(
                                   context, '/visitors_edit',
@@ -95,8 +95,36 @@ class _VisitorsPageState extends State<VisitorsPage> {
                               setState(() {});
                             },
                             leading: CircleAvatar(
-                              backgroundImage:
-                                  FileImage(File('$path/${snapshot.data[index].id}')),
+                                 backgroundImage: FileImage(File('$path/${snapshot.data[index].id}')),
+                            ),
+                            title: Text(
+                              snapshot.data[index].firstName +
+                                  ' ' +
+                                  snapshot.data[index].lastName,
+                            ),
+                          ):
+                          ListTile(
+                            onTap: () async {
+                              dynamic result = await Navigator.pushNamed(
+                                  context, '/visitors_edit',
+                                  arguments: {
+                                    'firstName': snapshot.data[index].firstName,
+                                    'lastName': snapshot.data[index].lastName,
+                                    'number': snapshot.data[index].number,
+                                    'image': snapshot.data[index].image,
+                                    'id': snapshot.data[index].id,
+                                  });
+                              var dbHelper = DBHandler();
+                              await dbHelper.editVisitor(Visitor.withID(
+                                  snapshot.data[index].id,
+                                  result['firstName'],
+                                  result['lastName'],
+                                  result['number'],
+                                  result['image']));
+                              setState(() {});
+                            },
+                            leading: CircleAvatar(
+                              backgroundImage: NetworkImage(snapshot.data[index].image),
                             ),
                             title: Text(
                               snapshot.data[index].firstName +
