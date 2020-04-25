@@ -5,7 +5,6 @@ import 'package:buzz/services/database.dart';
 import 'package:video_player/video_player.dart';
 
 class LogPage extends StatefulWidget {
-  LogPage({Key key}) : super(key: key);
   @override
   _LogPageState createState() => _LogPageState();
 }

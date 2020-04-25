@@ -9,7 +9,6 @@ import 'package:flutter_vlc_player/vlc_player_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key key}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -112,27 +111,20 @@ class BNB extends StatefulWidget {
 class _BNBState extends State<BNB> {
   int _currentIndex = 1;
   List<Widget> children = [
-    LogPage(
-      key: PageStorageKey('LogPage'),
-    ),
-    Home(
-      key: PageStorageKey('Home'),
-    ),
-    VisitorsPage(
-      key: PageStorageKey('VisitorsPage'),
-    ),
+    LogPage(),
+    Home(),
+    VisitorsPage(),
   ];
 
-  final PageStorageBucket bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-//      body: IndexedStack(
-//        index: _currentIndex,
-//        children: children,
-//      ),
-      body: children[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: children,
+      ),
+//      body: children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,

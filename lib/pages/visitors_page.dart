@@ -7,15 +7,11 @@ import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
 class VisitorsPage extends StatefulWidget {
-  const VisitorsPage({Key key}) : super(key: key);
   @override
   _VisitorsPageState createState() => _VisitorsPageState();
 }
 
-class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClientMixin {
-
-  @override
-  bool get wantKeepAlive => true;
+class _VisitorsPageState extends State<VisitorsPage> {
 
   String path;
   Future<List<Visitor>> visitors;
@@ -27,10 +23,6 @@ class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClie
     visitors = fetchVisitors();
   }
 
-  first() async {
-
-  }
-
   Future<List<Visitor>> fetchVisitors() async {
       var dbHelper = DBHandler();
       path = (await getApplicationDocumentsDirectory()).path;
@@ -40,7 +32,6 @@ class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClie
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -59,7 +50,6 @@ class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClie
                 var visitor = Visitor(result['firstName'], result['lastName'],
                     result['number'], result['image']);
                 dbHelper.saveVisitors(visitor);
-                await first();
                 setState(() {
                 });
               }),
@@ -110,7 +100,6 @@ class _VisitorsPageState extends State<VisitorsPage> with AutomaticKeepAliveClie
                                   result['lastName'],
                                   result['number'],
                                   result['image']));
-                              await first();
                               setState(() {});
                             },
                             leading: CircleAvatar(
