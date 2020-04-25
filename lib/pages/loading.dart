@@ -8,7 +8,6 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
   wait() async {
     var dbHelper = DBHandler();
     await dbHelper.storeImages();

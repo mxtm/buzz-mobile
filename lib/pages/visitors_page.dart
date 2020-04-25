@@ -12,14 +12,13 @@ class VisitorsPage extends StatefulWidget {
 }
 
 class _VisitorsPageState extends State<VisitorsPage> {
-
   String path;
 
   Future<List<Visitor>> fetchVisitors() async {
-      var dbHelper = DBHandler();
-      path = (await getApplicationDocumentsDirectory()).path;
-      Future<List<Visitor>> visitors = dbHelper.getCollection();
-      return visitors;
+    var dbHelper = DBHandler();
+    path = (await getApplicationDocumentsDirectory()).path;
+    Future<List<Visitor>> visitors = dbHelper.getCollection();
+    return visitors;
   }
 
   @override
@@ -42,8 +41,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                 var visitor = Visitor(result['firstName'], result['lastName'],
                     result['number'], result['image']);
                 dbHelper.saveVisitors(visitor);
-                setState(() {
-                });
+                setState(() {});
               }),
         ],
       ),
@@ -74,64 +72,72 @@ class _VisitorsPageState extends State<VisitorsPage> {
                         ),
                         child: Card(
                           // to list different visitors
-                          child: File('$path/${snapshot.data[index].id}').existsSync()? ListTile(
-                            onTap: () async {
-                              dynamic result = await Navigator.pushNamed(
-                                  context, '/visitors_edit',
-                                  arguments: {
-                                    'firstName': snapshot.data[index].firstName,
-                                    'lastName': snapshot.data[index].lastName,
-                                    'number': snapshot.data[index].number,
-                                    'image': snapshot.data[index].image,
-                                    'id': snapshot.data[index].id,
-                                  });
-                              var dbHelper = DBHandler();
-                              await dbHelper.editVisitor(Visitor.withID(
-                                  snapshot.data[index].id,
-                                  result['firstName'],
-                                  result['lastName'],
-                                  result['number'],
-                                  result['image']));
-                              setState(() {});
-                            },
-                            leading: CircleAvatar(
-                                 backgroundImage: FileImage(File('$path/${snapshot.data[index].id}')),
-                            ),
-                            title: Text(
-                              snapshot.data[index].firstName +
-                                  ' ' +
-                                  snapshot.data[index].lastName,
-                            ),
-                          ):
-                          ListTile(
-                            onTap: () async {
-                              dynamic result = await Navigator.pushNamed(
-                                  context, '/visitors_edit',
-                                  arguments: {
-                                    'firstName': snapshot.data[index].firstName,
-                                    'lastName': snapshot.data[index].lastName,
-                                    'number': snapshot.data[index].number,
-                                    'image': snapshot.data[index].image,
-                                    'id': snapshot.data[index].id,
-                                  });
-                              var dbHelper = DBHandler();
-                              await dbHelper.editVisitor(Visitor.withID(
-                                  snapshot.data[index].id,
-                                  result['firstName'],
-                                  result['lastName'],
-                                  result['number'],
-                                  result['image']));
-                              setState(() {});
-                            },
-                            leading: CircleAvatar(
-                              backgroundImage: NetworkImage(snapshot.data[index].image),
-                            ),
-                            title: Text(
-                              snapshot.data[index].firstName +
-                                  ' ' +
-                                  snapshot.data[index].lastName,
-                            ),
-                          ),
+                          child: File('$path/${snapshot.data[index].id}')
+                                  .existsSync()
+                              ? ListTile(
+                                  onTap: () async {
+                                    dynamic result = await Navigator.pushNamed(
+                                        context, '/visitors_edit',
+                                        arguments: {
+                                          'firstName':
+                                              snapshot.data[index].firstName,
+                                          'lastName':
+                                              snapshot.data[index].lastName,
+                                          'number': snapshot.data[index].number,
+                                          'image': snapshot.data[index].image,
+                                          'id': snapshot.data[index].id,
+                                        });
+                                    var dbHelper = DBHandler();
+                                    await dbHelper.editVisitor(Visitor.withID(
+                                        snapshot.data[index].id,
+                                        result['firstName'],
+                                        result['lastName'],
+                                        result['number'],
+                                        result['image']));
+                                    setState(() {});
+                                  },
+                                  leading: CircleAvatar(
+                                    backgroundImage: FileImage(File(
+                                        '$path/${snapshot.data[index].id}')),
+                                  ),
+                                  title: Text(
+                                    snapshot.data[index].firstName +
+                                        ' ' +
+                                        snapshot.data[index].lastName,
+                                  ),
+                                )
+                              : ListTile(
+                                  onTap: () async {
+                                    dynamic result = await Navigator.pushNamed(
+                                        context, '/visitors_edit',
+                                        arguments: {
+                                          'firstName':
+                                              snapshot.data[index].firstName,
+                                          'lastName':
+                                              snapshot.data[index].lastName,
+                                          'number': snapshot.data[index].number,
+                                          'image': snapshot.data[index].image,
+                                          'id': snapshot.data[index].id,
+                                        });
+                                    var dbHelper = DBHandler();
+                                    await dbHelper.editVisitor(Visitor.withID(
+                                        snapshot.data[index].id,
+                                        result['firstName'],
+                                        result['lastName'],
+                                        result['number'],
+                                        result['image']));
+                                    setState(() {});
+                                  },
+                                  leading: CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        snapshot.data[index].image),
+                                  ),
+                                  title: Text(
+                                    snapshot.data[index].firstName +
+                                        ' ' +
+                                        snapshot.data[index].lastName,
+                                  ),
+                                ),
                         ),
                       ),
                     );

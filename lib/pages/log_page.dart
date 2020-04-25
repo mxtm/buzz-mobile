@@ -8,16 +8,16 @@ class LogPage extends StatefulWidget {
   _LogPageState createState() => _LogPageState();
 }
 
-class _LogPageState extends State<LogPage>{
-
+class _LogPageState extends State<LogPage> {
   String videoUrl = "";
   int vidIndex = -1;
   GlobalKey imageKey;
   VideoPlayerController _controller;
 
   final _scrollController = ScrollController();
-  void _moveToVideo(int index){
-    _scrollController.animateTo(80.0 * index, duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
+  void _moveToVideo(int index) {
+    _scrollController.animateTo(80.0 * index,
+        duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
   }
 
   void _initController(String link) {

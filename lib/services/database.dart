@@ -92,8 +92,7 @@ class DBHandler {
   storeImages() async {
     String path = (await getApplicationDocumentsDirectory()).path;
     List<Visitor> v = await getCollection();
-    for (int i = 0; i < v.length; i++)
-    {
+    for (int i = 0; i < v.length; i++) {
       bool check = await File('$path/${v[i].id}').exists();
       if (!check) {
         File file = new File('$path/${v[i].id}');
@@ -107,17 +106,22 @@ class DBHandler {
     }
   }
 
-  storeVideos(String name,String time,String video) async {
+  storeVideos(String name, String time, String video) async {
     String path = (await getApplicationDocumentsDirectory()).path;
-    bool check = await File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}').exists();
+    bool check = await File(
+            '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}')
+        .exists();
     if (!check) {
-      File file = new File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}');
-      print('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}');
+      File file = new File(
+          '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}');
+      print('$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}');
       HttpClient client = new HttpClient();
       var request = await client.getUrl(Uri.parse(video));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
-      print(await File('$path/${name.replaceAll(' ','')}${time.replaceAll(' ','')}').exists());
+      print(await File(
+              '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}')
+          .exists());
       await file.writeAsBytes(bytes);
       print('done');
     }

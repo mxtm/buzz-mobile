@@ -13,8 +13,7 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home>{
-
+class _HomeState extends State<Home> {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   VlcPlayerController videoViewController;
   GlobalKey imageKey;
@@ -116,7 +115,6 @@ class _BNBState extends State<BNB> {
 //    VisitorsPage(),
 //  ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,8 +128,8 @@ class _BNBState extends State<BNB> {
           new Offstage(
             offstage: _currentIndex != 0,
             child: new TickerMode(
-                enabled: _currentIndex == 0,
-                child: LogPage(),
+              enabled: _currentIndex == 0,
+              child: LogPage(),
             ),
           ),
           new Offstage(
@@ -149,7 +147,7 @@ class _BNBState extends State<BNB> {
             ),
           ),
         ],
-      ) ,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
         currentIndex: _currentIndex,
