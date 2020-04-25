@@ -14,19 +14,11 @@ class VisitorsPage extends StatefulWidget {
 class _VisitorsPageState extends State<VisitorsPage> {
 
   String path;
-  Future<List<Visitor>> visitors;
-
-  @override
-  void initState() {
-    super.initState();
-    print('here');
-    visitors = fetchVisitors();
-  }
 
   Future<List<Visitor>> fetchVisitors() async {
       var dbHelper = DBHandler();
       path = (await getApplicationDocumentsDirectory()).path;
-      final Future<List<Visitor>> visitors = dbHelper.getCollection();
+      Future<List<Visitor>> visitors = dbHelper.getCollection();
       return visitors;
   }
 
@@ -56,7 +48,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
         ],
       ),
       body: FutureBuilder(
-          future: visitors,
+          future: fetchVisitors(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
