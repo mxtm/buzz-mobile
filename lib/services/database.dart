@@ -50,6 +50,7 @@ class DBHandler {
 
   void deleteVisitor(int id) async {
     String path = (await getApplicationDocumentsDirectory()).path;
+    await File('$path/$id').delete();
     try {
       databaseReference.collection("visitors").document("$id").delete();
     } catch (e) {
@@ -57,7 +58,6 @@ class DBHandler {
     }
     StorageReference reference = FirebaseStorage.instance.ref().child("$id");
     reference.delete();
-    await File('$path/$id').delete();
   }
 
   Future<List<Visitor>> getCollection() async {
@@ -88,43 +88,49 @@ class DBHandler {
     return visitors;
   }
 
-  //TODO figure out the async/await situation
   storeImages() async {
     String path = (await getApplicationDocumentsDirectory()).path;
     List<Visitor> v = await getCollection();
     for (int i = 0; i < v.length; i++) {
       bool check = await File('$path/${v[i].id}').exists();
       if (!check) {
-        File file = new File('$path/${v[i].id}');
         HttpClient client = new HttpClient();
         var request = await client.getUrl(Uri.parse(v[i].image));
         var response = await request.close();
         var bytes = await consolidateHttpClientResponseBytes(response);
-        await file.writeAsBytes(bytes);
+        await (new File('$path/${v[i].id}')).writeAsBytes(bytes);
         print('done${v[i].id}');
       }
     }
   }
 
   storeVideos(String name, String time, String video) async {
-    String path = (await getApplicationDocumentsDirectory()).path;
-    bool check = await File(
-            '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}')
-        .exists();
+    String path = (await getTemporaryDirectory()).path;
+    String name = time.replaceAll('/','').replaceAll(':','').replaceAll(' ','');
+    bool check = await File('$path/$name').exists();
     if (!check) {
-      File file = new File(
-          '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}');
-      print('$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}');
+      File file = new File('$path/$name');
       HttpClient client = new HttpClient();
       var request = await client.getUrl(Uri.parse(video));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
-      print(await File(
-              '$path/${name.replaceAll(' ', '')}${time.replaceAll(' ', '')}')
-          .exists());
       await file.writeAsBytes(bytes);
-      print('done');
     }
+  }
+
+  deleteVideo(String time,String video) async {
+    String path = (await getTemporaryDirectory()).path;
+    String name = time.replaceAll('/','').replaceAll(':','').replaceAll(' ','');
+    String docName = "b'" + time.replaceAll('/','-').replaceAll(':','-').replaceAll(' ','_') + "'";
+    String vidName = video.substring(video.lastIndexOf("/") + 1);
+    try {
+      databaseReference.collection("visitors_log").document(docName).delete();
+    } catch (e) {
+      print(e.toString());
+    }
+    StorageReference reference = FirebaseStorage.instance.ref().child(vidName);
+    reference.delete();
+    await File('$path/$name').delete();
   }
 
   Future<List<VisitorLog>> getLog() async {

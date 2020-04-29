@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:buzz/services/log.dart';
 import 'package:buzz/services/database.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:io';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:path_provider/path_provider.dart';
 
 class LogPage extends StatefulWidget {
   @override
@@ -13,14 +16,19 @@ class _LogPageState extends State<LogPage> {
   int vidIndex = -1;
   GlobalKey imageKey;
   VideoPlayerController _controller;
-
   final _scrollController = ScrollController();
+  String path = "";
+
+  Future<String> getPath() async {
+    return (await getTemporaryDirectory()).path;
+}
+
   void _moveToVideo(int index) {
     _scrollController.animateTo(80.0 * index,
         duration: Duration(milliseconds: 500), curve: Curves.fastOutSlowIn);
   }
 
-  void _initController(String link) {
+  void _initNetworkController(String link) {
     _controller = VideoPlayerController.network(link)
       ..initialize().then((_) {
         setState(() {});
@@ -28,14 +36,31 @@ class _LogPageState extends State<LogPage> {
       });
   }
 
-  Future<void> _startVideoPlayer(String link) async {
-    if (_controller == null) {
-      _initController(link);
+  void _initFileController(String path) {
+    _controller = VideoPlayerController.file(File(path))
+        ..initialize().then((_) {
+          setState(() {});
+          _controller.play();
+        }) ;
+  }
+
+  Future<void> _startVideoPlayer(String link, bool networkSource) async {
+    if (_controller == null && networkSource) {
+      _initNetworkController(link);
+    } else if (_controller == null && !networkSource){
+      _initFileController(link);
     } else {
       final oldController = _controller;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await oldController.dispose();
-        _initController(link);
+        if (networkSource)
+          {
+            _initNetworkController(link);
+          }
+        else
+          {
+            _initFileController(link);
+          }
       });
       setState(() {
         _controller = null;
@@ -69,62 +94,89 @@ class _LogPageState extends State<LogPage> {
                       controller: _scrollController,
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
-                        return Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 2.0,
-                              horizontal: 4.0,
+                        return Slidable(
+                          actionPane: SlidableDrawerActionPane(),
+                          actions: <Widget>[
+                            new IconSlideAction(
+                              caption: 'Delete',
+                              color: Colors.red,
+                              icon: Icons.delete,
+                              onTap: () async {
+                                var dbHelper = DBHandler();
+                                await dbHelper.deleteVideo(snapshot.data[index].time,snapshot.data[index].video);
+                                setState(() {});
+                              },
                             ),
-                            child: index != vidIndex
-                                ? Card(
-                                    child: ListTile(
-                                      title: Text(snapshot.data[index].name),
-                                      subtitle: Text(snapshot.data[index].time),
-                                      onTap: () async {
-                                        //var dbHelper = DBHandler();
-                                        //await dbHelper.storeVideos(snapshot.data[index].name,snapshot.data[index].time,snapshot.data[index].video);
-                                        setState(() {
-                                          videoUrl = snapshot.data[index].video;
-                                          vidIndex = index;
-                                          _moveToVideo(index);
-                                          _startVideoPlayer(videoUrl);
-                                        });
-                                      },
-                                    ),
-                                  )
-                                : Column(
-                                    children: <Widget>[
-                                      Card(
-                                        child: ListTile(
-                                          title:
-                                              Text(snapshot.data[index].name),
-                                          subtitle:
-                                              Text(snapshot.data[index].time),
-                                          onTap: () {
-                                            setState(() {
-                                              videoUrl =
-                                                  snapshot.data[index].video;
-                                              vidIndex = -1;
-                                            });
-                                          },
+                          ],
+                          child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 2.0,
+                                horizontal: 4.0,
+                              ),
+                              child: index != vidIndex
+                                  ? Card(
+                                      child: ListTile(
+                                        title: Text(snapshot.data[index].name),
+                                        subtitle: Text(snapshot.data[index].time),
+                                        onTap: () async {
+                                          var dbHelper = DBHandler();
+                                          String setPath = (await getPath()) + '/${snapshot.data[index].time.replaceAll('/','').replaceAll(':','').replaceAll(' ','')}';
+                                          if (!File(setPath).existsSync())
+                                            {
+                                              dbHelper.storeVideos(snapshot.data[index].name,snapshot.data[index].time,snapshot.data[index].video);
+                                            }
+                                          setState(() {
+                                            videoUrl = snapshot.data[index].video;
+                                            vidIndex = index;
+                                            _moveToVideo(index);
+                                            path = setPath;
+                                            if (!File(path).existsSync())
+                                              {
+                                                _startVideoPlayer(videoUrl,true);
+                                              }
+                                            else
+                                              {
+                                                _startVideoPlayer(path,false);
+                                              }
+                                          });
+                                        },
+                                      ),
+                                    )
+                                  : Column(
+                                      children: <Widget>[
+                                        Card(
+                                          child: ListTile(
+                                            title:
+                                                Text(snapshot.data[index].name),
+                                            subtitle:
+                                                Text(snapshot.data[index].time),
+                                            onTap: () {
+                                              setState(() {
+                                                videoUrl =
+                                                    snapshot.data[index].video;
+                                                vidIndex = -1;
+                                              });
+                                            },
+                                          ),
                                         ),
-                                      ),
-                                      AspectRatio(
-                                        aspectRatio: 4 / 3,
-                                        child: (_controller != null
-                                            ? VideoPlayer(_controller)
-                                            : Container(
-                                                height: 200,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.center,
-                                                  children: <Widget>[
-                                                    CircularProgressIndicator()
-                                                  ],
-                                                ),
-                                              )),
-                                      ),
-                                    ],
-                                  ));
+                                        AspectRatio(
+                                          aspectRatio: 4 / 3,
+                                          child: (_controller != null
+                                              ? VideoPlayer(_controller)
+                                              : Container(
+                                                  height: 200,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.center,
+                                                    children: <Widget>[
+                                                      CircularProgressIndicator()
+                                                    ],
+                                                  ),
+                                                )),
+                                        ),
+                                      ],
+                                    )),
+                        );
                       });
                 } else {
                   return Center(

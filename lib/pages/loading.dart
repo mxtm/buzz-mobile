@@ -17,8 +17,8 @@ class _LoadingState extends State<Loading> {
   @override
   void initState() {
     // run the original initState
-    super.initState();
     wait();
+    super.initState();
   }
 
   @override

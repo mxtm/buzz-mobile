@@ -76,6 +76,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                   .existsSync()
                               ? ListTile(
                                   onTap: () async {
+                                    print('file');
                                     dynamic result = await Navigator.pushNamed(
                                         context, '/visitors_edit',
                                         arguments: {
@@ -87,14 +88,17 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                           'image': snapshot.data[index].image,
                                           'id': snapshot.data[index].id,
                                         });
-                                    var dbHelper = DBHandler();
-                                    await dbHelper.editVisitor(Visitor.withID(
-                                        snapshot.data[index].id,
-                                        result['firstName'],
-                                        result['lastName'],
-                                        result['number'],
-                                        result['image']));
-                                    setState(() {});
+                                    if (result != null)
+                                      {
+                                        var dbHelper = DBHandler();
+                                        await dbHelper.editVisitor(Visitor.withID(
+                                            snapshot.data[index].id,
+                                            result['firstName'],
+                                            result['lastName'],
+                                            result['number'],
+                                            result['image']));
+                                        setState(() {});
+                                      }
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage: FileImage(File(
@@ -108,6 +112,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                 )
                               : ListTile(
                                   onTap: () async {
+                                    print('network');
                                     dynamic result = await Navigator.pushNamed(
                                         context, '/visitors_edit',
                                         arguments: {
@@ -119,14 +124,17 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                           'image': snapshot.data[index].image,
                                           'id': snapshot.data[index].id,
                                         });
-                                    var dbHelper = DBHandler();
-                                    await dbHelper.editVisitor(Visitor.withID(
-                                        snapshot.data[index].id,
-                                        result['firstName'],
-                                        result['lastName'],
-                                        result['number'],
-                                        result['image']));
-                                    setState(() {});
+                                    if (result != null)
+                                    {
+                                      var dbHelper = DBHandler();
+                                      await dbHelper.editVisitor(Visitor.withID(
+                                          snapshot.data[index].id,
+                                          result['firstName'],
+                                          result['lastName'],
+                                          result['number'],
+                                          result['image']));
+                                      setState(() {});
+                                    }
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage: NetworkImage(

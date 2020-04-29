@@ -67,7 +67,6 @@ class _HomeState extends State<Home> {
     videoViewController = new VlcPlayerController();
     super.initState();
     setupNotifications();
-    print('here home');
   }
 
   @override
