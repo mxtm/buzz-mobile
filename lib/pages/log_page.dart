@@ -21,7 +21,7 @@ class _LogPageState extends State<LogPage> {
 
   Future<String> getPath() async {
     return (await getTemporaryDirectory()).path;
-}
+  }
 
   void _moveToVideo(int index) {
     _scrollController.animateTo(80.0 * index,
@@ -38,29 +38,26 @@ class _LogPageState extends State<LogPage> {
 
   void _initFileController(String path) {
     _controller = VideoPlayerController.file(File(path))
-        ..initialize().then((_) {
-          setState(() {});
-          _controller.play();
-        }) ;
+      ..initialize().then((_) {
+        setState(() {});
+        _controller.play();
+      });
   }
 
   Future<void> _startVideoPlayer(String link, bool networkSource) async {
     if (_controller == null && networkSource) {
       _initNetworkController(link);
-    } else if (_controller == null && !networkSource){
+    } else if (_controller == null && !networkSource) {
       _initFileController(link);
     } else {
       final oldController = _controller;
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await oldController.dispose();
-        if (networkSource)
-          {
-            _initNetworkController(link);
-          }
-        else
-          {
-            _initFileController(link);
-          }
+        if (networkSource) {
+          _initNetworkController(link);
+        } else {
+          _initFileController(link);
+        }
       });
       setState(() {
         _controller = null;
@@ -80,7 +77,7 @@ class _LogPageState extends State<LogPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Visitor Log'),
-        backgroundColor: Colors.amber[800],
+        backgroundColor: Color(0xFFFCB43A),
         centerTitle: true,
       ),
       body: Column(
@@ -102,9 +99,35 @@ class _LogPageState extends State<LogPage> {
                               color: Colors.red,
                               icon: Icons.delete,
                               onTap: () async {
-                                var dbHelper = DBHandler();
-                                await dbHelper.deleteVideo(snapshot.data[index].time,snapshot.data[index].video);
-                                setState(() {});
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Deleting log'),
+                                        content: Text(
+                                            'Are you sure you want to delete this log entry?'),
+                                        actions: <Widget>[
+                                          FlatButton(
+                                            child: Text('Yes'),
+                                            onPressed: () {
+                                              var dbHelper = DBHandler();
+                                              //await
+                                              dbHelper.deleteVideo(
+                                                  snapshot.data[index].time,
+                                                  snapshot.data[index].video);
+                                              Navigator.pop(context, {});
+                                              setState(() {});
+                                            },
+                                          ),
+                                          FlatButton(
+                                            child: Text('No'),
+                                            onPressed: () {
+                                              Navigator.pop(context, {});
+                                            },
+                                          ),
+                                        ],
+                                      );
+                                    });
                               },
                             ),
                           ],
@@ -117,27 +140,29 @@ class _LogPageState extends State<LogPage> {
                                   ? Card(
                                       child: ListTile(
                                         title: Text(snapshot.data[index].name),
-                                        subtitle: Text(snapshot.data[index].time),
+                                        subtitle:
+                                            Text(snapshot.data[index].time),
                                         onTap: () async {
                                           var dbHelper = DBHandler();
-                                          String setPath = (await getPath()) + '/${snapshot.data[index].time.replaceAll('/','').replaceAll(':','').replaceAll(' ','')}';
-                                          if (!File(setPath).existsSync())
-                                            {
-                                              dbHelper.storeVideos(snapshot.data[index].name,snapshot.data[index].time,snapshot.data[index].video);
-                                            }
+                                          String setPath = (await getPath()) +
+                                              '/${snapshot.data[index].time.replaceAll('/', '').replaceAll(':', '').replaceAll(' ', '')}';
+                                          if (!File(setPath).existsSync()) {
+                                            dbHelper.storeVideos(
+                                                snapshot.data[index].name,
+                                                snapshot.data[index].time,
+                                                snapshot.data[index].video);
+                                          }
                                           setState(() {
-                                            videoUrl = snapshot.data[index].video;
+                                            videoUrl =
+                                                snapshot.data[index].video;
                                             vidIndex = index;
                                             _moveToVideo(index);
                                             path = setPath;
-                                            if (!File(path).existsSync())
-                                              {
-                                                _startVideoPlayer(videoUrl,true);
-                                              }
-                                            else
-                                              {
-                                                _startVideoPlayer(path,false);
-                                              }
+                                            if (!File(path).existsSync()) {
+                                              _startVideoPlayer(videoUrl, true);
+                                            } else {
+                                              _startVideoPlayer(path, false);
+                                            }
                                           });
                                         },
                                       ),
@@ -167,7 +192,8 @@ class _LogPageState extends State<LogPage> {
                                                   height: 200,
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                        MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: <Widget>[
                                                       CircularProgressIndicator()
                                                     ],

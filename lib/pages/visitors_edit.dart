@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:buzz/services/database.dart';
-import 'package:buzz/services/visitor.dart';
+//import 'package:buzz/services/database.dart';
+//import 'package:buzz/services/visitor.dart';
 
 class VisitorsEdit extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Edit Visitor'),
-        backgroundColor: Colors.amber[800],
+        backgroundColor: Color(0xFFFCB43A),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
@@ -151,15 +151,15 @@ class _VisitorsEditState extends State<VisitorsEdit> {
           ]),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          var dbHelper = DBHandler();
-          dbHelper.deleteVisitor(data['id']);
-          Navigator.pop(context, {});
-        },
-        child: Icon(Icons.delete),
-        backgroundColor: Colors.red,
-      ),
+//      floatingActionButton: FloatingActionButton(
+//        onPressed: () {
+//          var dbHelper = DBHandler();
+//          dbHelper.deleteVisitor(data['id']);
+//          Navigator.pop(context, {});
+//        },
+//        child: Icon(Icons.delete),
+//        backgroundColor: Colors.red,
+//      ),
     );
   }
 }

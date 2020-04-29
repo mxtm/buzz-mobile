@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:buzz/services/database.dart';
 import 'package:buzz/services/visitor.dart';
@@ -27,7 +28,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Visitors'),
-        backgroundColor: Colors.amber[800],
+        backgroundColor: Color(0xFFFCB43A),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -56,7 +57,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                     return Slidable(
                       actionPane: SlidableDrawerActionPane(),
                       actions: <Widget>[
-                        new IconSlideAction(
+                        IconSlideAction(
                           caption: 'Call',
                           color: Colors.green,
                           icon: Icons.call,
@@ -64,6 +65,45 @@ class _VisitorsPageState extends State<VisitorsPage> {
                             launch("tel:" + snapshot.data[index].number);
                           },
                         ),
+                      ],
+                      secondaryActions: <Widget>[
+                        IconSlideAction(
+                            caption: 'Delete',
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Deleting visitor'),
+                                      content: Text(
+                                          'Are you sure you want to delete ' +
+                                              snapshot.data[index].firstName +
+                                              ' ' +
+                                              snapshot.data[index].lastName +
+                                              ' from your visitors?'),
+                                      actions: <Widget>[
+                                        FlatButton(
+                                          child: Text('Yes'),
+                                          onPressed: () {
+                                            var dbHelper = DBHandler();
+                                            dbHelper.deleteVisitor(
+                                                snapshot.data[index].id);
+                                            Navigator.pop(context, {});
+                                            setState(() {});
+                                          },
+                                        ),
+                                        FlatButton(
+                                          child: Text('No'),
+                                          onPressed: () {
+                                            Navigator.pop(context, {});
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            }),
                       ],
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -88,17 +128,16 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                           'image': snapshot.data[index].image,
                                           'id': snapshot.data[index].id,
                                         });
-                                    if (result != null)
-                                      {
-                                        var dbHelper = DBHandler();
-                                        await dbHelper.editVisitor(Visitor.withID(
-                                            snapshot.data[index].id,
-                                            result['firstName'],
-                                            result['lastName'],
-                                            result['number'],
-                                            result['image']));
-                                        setState(() {});
-                                      }
+                                    if (result != null) {
+                                      var dbHelper = DBHandler();
+                                      await dbHelper.editVisitor(Visitor.withID(
+                                          snapshot.data[index].id,
+                                          result['firstName'],
+                                          result['lastName'],
+                                          result['number'],
+                                          result['image']));
+                                      setState(() {});
+                                    }
                                   },
                                   leading: CircleAvatar(
                                     backgroundImage: FileImage(File(
@@ -124,8 +163,7 @@ class _VisitorsPageState extends State<VisitorsPage> {
                                           'image': snapshot.data[index].image,
                                           'id': snapshot.data[index].id,
                                         });
-                                    if (result != null)
-                                    {
+                                    if (result != null) {
                                       var dbHelper = DBHandler();
                                       await dbHelper.editVisitor(Visitor.withID(
                                           snapshot.data[index].id,

@@ -45,7 +45,7 @@ class _VisitorsAddState extends State<VisitorsAdd> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Add Visitor'),
-        backgroundColor: Colors.amber[800],
+        backgroundColor: Color(0xFFFCB43A),
         centerTitle: true,
         actions: <Widget>[
           FlatButton(

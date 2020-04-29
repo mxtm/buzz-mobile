@@ -148,6 +148,7 @@ class _BNBState extends State<BNB> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Color(0xFFFCB43A),
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: [

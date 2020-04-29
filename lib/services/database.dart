@@ -106,7 +106,8 @@ class DBHandler {
 
   storeVideos(String name, String time, String video) async {
     String path = (await getTemporaryDirectory()).path;
-    String name = time.replaceAll('/','').replaceAll(':','').replaceAll(' ','');
+    String name =
+        time.replaceAll('/', '').replaceAll(':', '').replaceAll(' ', '');
     bool check = await File('$path/$name').exists();
     if (!check) {
       File file = new File('$path/$name');
@@ -118,10 +119,13 @@ class DBHandler {
     }
   }
 
-  deleteVideo(String time,String video) async {
+  deleteVideo(String time, String video) async {
     String path = (await getTemporaryDirectory()).path;
-    String name = time.replaceAll('/','').replaceAll(':','').replaceAll(' ','');
-    String docName = "b'" + time.replaceAll('/','-').replaceAll(':','-').replaceAll(' ','_') + "'";
+    String name =
+        time.replaceAll('/', '').replaceAll(':', '').replaceAll(' ', '');
+    String docName = "b'" +
+        time.replaceAll('/', '-').replaceAll(':', '-').replaceAll(' ', '_') +
+        "'";
     String vidName = video.substring(video.lastIndexOf("/") + 1);
     try {
       databaseReference.collection("visitors_log").document(docName).delete();
