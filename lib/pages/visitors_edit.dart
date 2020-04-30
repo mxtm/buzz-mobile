@@ -56,12 +56,6 @@ class _VisitorsEditState extends State<VisitorsEdit> {
   Widget build(BuildContext context) {
     data = ModalRoute.of(context).settings.arguments;
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('Images/wallpaper.jpg'),
-          fit: BoxFit.cover,
-        ),
-      ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
