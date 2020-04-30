@@ -73,146 +73,156 @@ class _LogPageState extends State<LogPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: Text('Visitor Log'),
-        backgroundColor: Color(0xFFFCB43A),
-        centerTitle: true,
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('Images/wallpaper.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: FutureBuilder(
-              future: fetchLog(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      controller: _scrollController,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        return Slidable(
-                          actionPane: SlidableDrawerActionPane(),
-                          actions: <Widget>[
-                            new IconSlideAction(
-                              caption: 'Delete',
-                              color: Colors.red,
-                              icon: Icons.delete,
-                              onTap: () async {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Deleting log'),
-                                        content: Text(
-                                            'Are you sure you want to delete this log entry?'),
-                                        actions: <Widget>[
-                                          FlatButton(
-                                            child: Text('Yes'),
-                                            onPressed: () {
-                                              var dbHelper = DBHandler();
-                                              //await
-                                              dbHelper.deleteVideo(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Visitor Log'),
+          backgroundColor: Color(0xFFFCB43A),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: FutureBuilder(
+                future: fetchLog(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        controller: _scrollController,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return Slidable(
+                            actionPane: SlidableDrawerActionPane(),
+                            actions: <Widget>[
+                              new IconSlideAction(
+                                caption: 'Delete',
+                                color: Colors.red,
+                                icon: Icons.delete,
+                                onTap: () async {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Deleting log'),
+                                          content: Text(
+                                              'Are you sure you want to delete this log entry?'),
+                                          actions: <Widget>[
+                                            FlatButton(
+                                              child: Text('Yes'),
+                                              onPressed: () {
+                                                var dbHelper = DBHandler();
+                                                //await
+                                                dbHelper.deleteVideo(
+                                                    snapshot.data[index].time,
+                                                    snapshot.data[index].video);
+                                                Navigator.pop(context, {});
+                                                setState(() {});
+                                              },
+                                            ),
+                                            FlatButton(
+                                              child: Text('No'),
+                                              onPressed: () {
+                                                Navigator.pop(context, {});
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                },
+                              ),
+                            ],
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 2.0,
+                                  horizontal: 4.0,
+                                ),
+                                child: index != vidIndex
+                                    ? Card(
+                                        child: ListTile(
+                                          title:
+                                              Text(snapshot.data[index].name),
+                                          subtitle:
+                                              Text(snapshot.data[index].time),
+                                          onTap: () async {
+                                            var dbHelper = DBHandler();
+                                            String setPath = (await getPath()) +
+                                                '/${snapshot.data[index].time.replaceAll('/', '').replaceAll(':', '').replaceAll(' ', '')}';
+                                            if (!File(setPath).existsSync()) {
+                                              dbHelper.storeVideos(
+                                                  snapshot.data[index].name,
                                                   snapshot.data[index].time,
                                                   snapshot.data[index].video);
-                                              Navigator.pop(context, {});
-                                              setState(() {});
-                                            },
+                                            }
+                                            setState(() {
+                                              videoUrl =
+                                                  snapshot.data[index].video;
+                                              vidIndex = index;
+                                              _moveToVideo(index);
+                                              path = setPath;
+                                              if (!File(path).existsSync()) {
+                                                _startVideoPlayer(
+                                                    videoUrl, true);
+                                              } else {
+                                                _startVideoPlayer(path, false);
+                                              }
+                                            });
+                                          },
+                                        ),
+                                      )
+                                    : Column(
+                                        children: <Widget>[
+                                          Card(
+                                            child: ListTile(
+                                              title: Text(
+                                                  snapshot.data[index].name),
+                                              subtitle: Text(
+                                                  snapshot.data[index].time),
+                                              onTap: () {
+                                                setState(() {
+                                                  videoUrl = snapshot
+                                                      .data[index].video;
+                                                  vidIndex = -1;
+                                                });
+                                              },
+                                            ),
                                           ),
-                                          FlatButton(
-                                            child: Text('No'),
-                                            onPressed: () {
-                                              Navigator.pop(context, {});
-                                            },
+                                          AspectRatio(
+                                            aspectRatio: 4 / 3,
+                                            child: (_controller != null
+                                                ? VideoPlayer(_controller)
+                                                : Container(
+                                                    height: 200,
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: <Widget>[
+                                                        CircularProgressIndicator()
+                                                      ],
+                                                    ),
+                                                  )),
                                           ),
                                         ],
-                                      );
-                                    });
-                              },
-                            ),
-                          ],
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 2.0,
-                                horizontal: 4.0,
-                              ),
-                              child: index != vidIndex
-                                  ? Card(
-                                      child: ListTile(
-                                        title: Text(snapshot.data[index].name),
-                                        subtitle:
-                                            Text(snapshot.data[index].time),
-                                        onTap: () async {
-                                          var dbHelper = DBHandler();
-                                          String setPath = (await getPath()) +
-                                              '/${snapshot.data[index].time.replaceAll('/', '').replaceAll(':', '').replaceAll(' ', '')}';
-                                          if (!File(setPath).existsSync()) {
-                                            dbHelper.storeVideos(
-                                                snapshot.data[index].name,
-                                                snapshot.data[index].time,
-                                                snapshot.data[index].video);
-                                          }
-                                          setState(() {
-                                            videoUrl =
-                                                snapshot.data[index].video;
-                                            vidIndex = index;
-                                            _moveToVideo(index);
-                                            path = setPath;
-                                            if (!File(path).existsSync()) {
-                                              _startVideoPlayer(videoUrl, true);
-                                            } else {
-                                              _startVideoPlayer(path, false);
-                                            }
-                                          });
-                                        },
-                                      ),
-                                    )
-                                  : Column(
-                                      children: <Widget>[
-                                        Card(
-                                          child: ListTile(
-                                            title:
-                                                Text(snapshot.data[index].name),
-                                            subtitle:
-                                                Text(snapshot.data[index].time),
-                                            onTap: () {
-                                              setState(() {
-                                                videoUrl =
-                                                    snapshot.data[index].video;
-                                                vidIndex = -1;
-                                              });
-                                            },
-                                          ),
-                                        ),
-                                        AspectRatio(
-                                          aspectRatio: 4 / 3,
-                                          child: (_controller != null
-                                              ? VideoPlayer(_controller)
-                                              : Container(
-                                                  height: 200,
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      CircularProgressIndicator()
-                                                    ],
-                                                  ),
-                                                )),
-                                        ),
-                                      ],
-                                    )),
-                        );
-                      });
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                                      )),
+                          );
+                        });
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

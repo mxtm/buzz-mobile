@@ -71,27 +71,50 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          AspectRatio(
-            aspectRatio: 4 / 3,
-            child: VlcPlayer(
-              url: configuration.videoURL,
-              controller: videoViewController,
-              placeholder: Container(
-                height: 200,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[CircularProgressIndicator()],
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('Images/wallpaper.jpg'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: Colors.white,
+                    width: 5.0,
+                  ),
+                  bottom: BorderSide(
+                    color: Colors.white,
+                    width: 5.0,
+                  ),
                 ),
               ),
-              defaultHeight: null,
-              defaultWidth: null,
+              child: AspectRatio(
+                aspectRatio: 4 / 3,
+                child: VlcPlayer(
+                  url: configuration.videoURL,
+                  controller: videoViewController,
+                  placeholder: Container(
+                    height: 200,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[CircularProgressIndicator()],
+                    ),
+                  ),
+                  defaultHeight: null,
+                  defaultWidth: null,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

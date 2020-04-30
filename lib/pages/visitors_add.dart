@@ -40,101 +40,145 @@ class _VisitorsAddState extends State<VisitorsAdd> {
     return downloadUrl;
   }
 
+  FocusNode focusNode = FocusNode();
+  String hintText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    focusNode.addListener(() {
+      if (focusNode.hasFocus) {
+        hintText = '';
+      }
+      setState(() {});
+    });
+  }
+  // hintText: first == '' ? 'First Name' : first
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Visitor'),
-        backgroundColor: Color(0xFFFCB43A),
-        centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Done',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-            onPressed: () async {
-              image = await uploadImage(fileImage, DBHandler.idCount);
-              Navigator.pop(context, {
-                'firstName': first,
-                'lastName': last,
-                'number': number,
-                'image': image,
-              });
-            },
-          ),
-        ],
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('Images/wallpaper.jpg'),
+          fit: BoxFit.cover,
+        ),
       ),
-      body: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-            child: TextField(
-              decoration:
-                  InputDecoration(hintText: first == '' ? 'First Name' : first),
-              onChanged: (String str) {
-                setState(() {
-                  first = str;
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Add Visitor'),
+          backgroundColor: Color(0xFFFCB43A),
+          centerTitle: true,
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'Done',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+              onPressed: () async {
+                image = await uploadImage(fileImage, DBHandler.idCount);
+                Navigator.pop(context, {
+                  'firstName': first,
+                  'lastName': last,
+                  'number': number,
+                  'image': image,
                 });
               },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-            child: TextField(
-              decoration:
-                  InputDecoration(hintText: last == '' ? 'Last Name' : last),
-              onChanged: (String str) {
-                setState(() {
-                  last = str;
-                });
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2.5, horizontal: 5.0),
-            child: TextField(
-              decoration: InputDecoration(
-                  hintText: number == '' ? 'Contact number' : number),
-              keyboardType: TextInputType.number,
-              onChanged: (String str) {
-                setState(() {
-                  number = str;
-                });
-              },
-            ),
-          ),
-          SizedBox(height: 10.0),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              RaisedButton(
-                child: Text("Camera"),
-                onPressed: () async {
-                  FocusScope.of(context).unfocus(focusPrevious: true);
-                  File f =
-                      await ImagePicker.pickImage(source: ImageSource.camera);
+          ],
+        ),
+        body: Column(
+          children: <Widget>[
+            SizedBox(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+              child: TextField(
+                focusNode: focusNode,
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    labelText: 'First Name',
+                    hintText: hintText),
+                onChanged: (String str) {
                   setState(() {
-                    fileImage = f;
+                    first = str;
                   });
                 },
               ),
-              SizedBox(width: 10.0),
-              RaisedButton(
-                  child: Text("Gallery"),
+            ),
+            SizedBox(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+              child: TextField(
+                decoration: InputDecoration(
+                    filled: true,
+                    fillColor: Colors.white,
+                    labelText: 'Last Name',
+                    hintText: hintText),
+                onChanged: (String str) {
+                  setState(() {
+                    last = str;
+                  });
+                },
+              ),
+            ),
+            SizedBox(),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  labelText: 'Contact Number',
+                  hintText: hintText,
+                ),
+                keyboardType: TextInputType.number,
+                onChanged: (String str) {
+                  setState(() {
+                    number = str;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                RaisedButton(
+                  color: Color(0xFF992409),
+                  child: Text('Camera', style: TextStyle(color: Colors.white)),
                   onPressed: () async {
                     FocusScope.of(context).unfocus(focusPrevious: true);
-                    File f = await ImagePicker.pickImage(
-                        source: ImageSource.gallery);
+                    File f =
+                        await ImagePicker.pickImage(source: ImageSource.camera);
                     setState(() {
                       fileImage = f;
                     });
-                  })
-            ],
-          ),
-        ],
+                  },
+                ),
+                SizedBox(width: 10.0),
+                RaisedButton(
+                    color: Color(0xFF992409),
+                    child:
+                        Text('Gallery', style: TextStyle(color: Colors.white)),
+                    onPressed: () async {
+                      FocusScope.of(context).unfocus(focusPrevious: true);
+                      File f = await ImagePicker.pickImage(
+                          source: ImageSource.gallery);
+                      setState(() {
+                        fileImage = f;
+                      });
+                    })
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
