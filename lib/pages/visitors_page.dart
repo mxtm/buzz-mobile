@@ -26,7 +26,6 @@ class _VisitorsPageState extends State<VisitorsPage> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text('Visitors'),
           backgroundColor: Color(0xFFFCB43A),

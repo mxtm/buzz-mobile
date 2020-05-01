@@ -75,7 +75,6 @@ class _LogPageState extends State<LogPage> {
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text('Visitor Log'),
           backgroundColor: Color(0xFFFCB43A),

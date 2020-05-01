@@ -5,6 +5,7 @@ import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
 import 'package:buzz/pages/visitors_add.dart';
 import 'package:buzz/pages/visitors_edit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // when the app is opened, the loading screen is displayed
 // all routes are set up to direct to corresponding pages
@@ -20,3 +21,4 @@ void main() => runApp(MaterialApp(
       },
       debugShowCheckedModeBanner: false,
     ));
+

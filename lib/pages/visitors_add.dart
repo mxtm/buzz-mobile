@@ -53,13 +53,11 @@ class _VisitorsAddState extends State<VisitorsAdd> {
       setState(() {});
     });
   }
-  // hintText: first == '' ? 'First Name' : first
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text('Add Visitor'),
           backgroundColor: Color(0xFFFCB43A),

@@ -44,12 +44,9 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     return downloadUrl;
   }
 
-//  File profilePic;
-
   String path;
   Future<void> getPath() async {
     path = (await getApplicationDocumentsDirectory()).path;
-//    profilePic = File('$path/${data['id']}');
   }
 
   @override
