@@ -57,7 +57,6 @@ class _VisitorsEditState extends State<VisitorsEdit> {
     data = ModalRoute.of(context).settings.arguments;
     return Container(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
         appBar: AppBar(
           title: Text('Edit Visitor'),
           backgroundColor: Color(0xFFFCB43A),
