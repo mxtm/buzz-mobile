@@ -1,4 +1,4 @@
-package buzzcmps253.buzz
+package us.team.america.buzz;
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
