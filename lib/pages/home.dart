@@ -77,18 +77,18 @@ class _HomeState extends State<Home> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: Colors.white,
-                    width: 5.0,
-                  ),
-                  bottom: BorderSide(
-                    color: Colors.white,
-                    width: 5.0,
-                  ),
-                ),
-              ),
+//              decoration: BoxDecoration(
+//                border: Border(
+//                  top: BorderSide(
+//                    color: Colors.white,
+//                    width: 5.0,
+//                  ),
+//                  bottom: BorderSide(
+//                    color: Colors.white,
+//                    width: 5.0,
+//                  ),
+//                ),
+//              ),
               child: AspectRatio(
                 aspectRatio: 4 / 3,
                 child: VlcPlayer(

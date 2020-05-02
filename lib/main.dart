@@ -5,10 +5,16 @@ import 'package:buzz/pages/log_page.dart';
 import 'package:buzz/pages/visitors_page.dart';
 import 'package:buzz/pages/visitors_add.dart';
 import 'package:buzz/pages/visitors_edit.dart';
+import 'package:flutter/services.dart';
 
 // when the app is opened, the loading screen is displayed
 // all routes are set up to direct to corresponding pages
-void main() => runApp(MaterialApp(
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MaterialApp(
       initialRoute: '/',
       routes: {
         '/': (context) => Loading(),
@@ -20,3 +26,5 @@ void main() => runApp(MaterialApp(
       },
       debugShowCheckedModeBanner: false,
     ));
+  });
+}
