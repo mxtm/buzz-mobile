@@ -2,7 +2,6 @@ import 'package:buzz/services/beemovie.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:buzz/services/database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -18,8 +17,8 @@ class _LoadingState extends State<Loading> {
 
   @override
   void initState() {
-    // run the original initState
     wait();
+    // run the original initState
     super.initState();
   }
 
@@ -31,6 +30,22 @@ class _LoadingState extends State<Loading> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          FutureBuilder(
+            future: Future.delayed(Duration(seconds: 5)),
+            builder: (c, s) => s.connectionState == ConnectionState.done
+                ? Text("Please wait, images must be downloaded...")
+                : SizedBox.shrink(),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Expanded(
+                child: LinearProgressIndicator(),
+              ),
+            ],
+          ),
+          SizedBox(height: 50),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
