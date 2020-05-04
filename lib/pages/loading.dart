@@ -31,7 +31,7 @@ class _LoadingState extends State<Loading> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           FutureBuilder(
-            future: Future.delayed(Duration(seconds: 5)),
+            future: Future.delayed(Duration(seconds: 10)),
             builder: (c, s) => s.connectionState == ConnectionState.done
                 ? Text("Please wait, images must be downloaded...")
                 : SizedBox.shrink(),
