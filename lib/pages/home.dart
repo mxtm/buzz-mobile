@@ -7,6 +7,7 @@ import 'package:buzz/config.dart';
 import 'package:flutter_vlc_player/vlc_player.dart';
 import 'package:flutter_vlc_player/vlc_player_controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:oktoast/oktoast.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -49,6 +50,12 @@ class _HomeState extends State<Home> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        var body = message['notification']['body'];
+        showToast(
+          "$body",
+          textStyle: TextStyle(fontSize: 20.0),
+          position: ToastPosition.top,
+        );
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
